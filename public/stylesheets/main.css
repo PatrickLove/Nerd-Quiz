@@ -1,0 +1,47 @@
+body {
+    background-color: #FF7777;
+    font-family: Times;
+}
+
+#content-div {
+    background-color: #FF3333;
+    padding: 30px;
+    width: 80vw;
+    min-width: 700px;
+    margin-top: 10vh;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 30px;
+}
+
+.form-label {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.error-text {
+    color: #AA0000;
+}
+
+h1 {
+    font-family: 'Arial Black';
+}
+
+h1, h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.vertical-row > td {
+    vertical-align: top;
+}
+
+.submit-button{
+    width: 100%;
+    border-radius: 2px;
+    background-color: #FF0000;
+    border: none;
+    color: #FFFF00;
+    padding: 5px;
+    max-width: 250px;
+}
