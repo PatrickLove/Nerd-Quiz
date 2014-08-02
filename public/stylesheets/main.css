@@ -44,4 +44,6 @@ h1, h3 {
     color: #FFFF00;
     padding: 5px;
     max-width: 250px;
+    font-family: inherit;
+    font-size: 18px;
 }
