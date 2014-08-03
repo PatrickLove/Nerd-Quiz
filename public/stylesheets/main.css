@@ -36,14 +36,25 @@ h1, h3 {
     vertical-align: top;
 }
 
-.submit-button{
-    width: 100%;
-    border-radius: 2px;
-    background-color: #FF0000;
-    border: none;
-    color: #FFFF00;
+button{
+    border-radius: 4px;
     padding: 5px;
-    max-width: 250px;
+    border: none;
     font-family: inherit;
     font-size: 18px;
+}
+
+.submit-button{
+    width: 100%;
+    background-color: #FF0000;
+    color: #FFFF00;
+}
+
+.heading {
+    border-bottom: 4px solid yellow;
+    margin-bottom: 20px;
+}
+
+h1.heading {
+    padding-bottom: 15px;
 }

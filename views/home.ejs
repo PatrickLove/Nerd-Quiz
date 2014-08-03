@@ -4,15 +4,50 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/stylesheets/main.css"/>
     <link rel="stylesheet" href="/stylesheets/home.css"/>
+    <link rel="stylesheet" href="/stylesheets/jquery-ui.css"/>
     <script src="/libs/jquery.js"></script>
     <script src="/libs/jquery-ui.js"></script>
     <script src="/js/login-manager.js"></script>
+    <script>
+        $('document').ready(function(){
+            $( "#tab-view" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+            $( "#tab-view li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+        });
+    </script>
     <title>The Nerd Table Home Page</title>
 </head>
 <body>
     <div id="content-div">
-        <h1>The Nerd Table Home Page</h1>
-        <button onclick="logout()">Logout</button>
+        <table class="heading">
+            <tr>
+                <td style="width: 100%">
+                    <h1>The Nerd Table Home Page</h1>
+                </td>
+                <td nowrap id="welcome">
+                    Welcome <%= fullName %>
+                </td>
+                <td>
+                    <button id="logout" onclick="logout()">Logout</button>
+                </td>
+            </tr>
+        </table>
+        <div id="tab-view">
+            <table style="width: 100%;">
+                <tr class="vertical-row">
+                    <td id="tabs-cell">
+                        <ul id="menu">
+                            <li><a href="#home-content">Home</a></li>
+                            <li><a href="#invite">Invite a Friend</a></li>
+                        </ul>
+                    </td>
+                    <td style="width: 2%;"> </td>
+                    <td id="page-content-cell">
+                        <div id="home-content">Home Stuff</div>
+                        <div id="invite">Invite a Friend</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </body>
 </html>

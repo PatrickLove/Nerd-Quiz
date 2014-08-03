@@ -30,7 +30,7 @@ app.get('/', function(req, res){
 
 app.get('/home', function(req, res){
     if(req.session.loginState == 1){
-        res.render('home');
+        res.render('home', req.session.userData);
     } else {
         res.redirect('/');
     }
@@ -40,6 +40,7 @@ app.post('/login', function(req, res){
     var pwd = req.body.password,
         usr = req.body.username;
     if(pwd && usr && users.validateUser(usr, pwd)){
+        req.session.userData = users.getUserData(usr);
         req.session.loginState = 1;
         res.redirect('/home');
     } else {
