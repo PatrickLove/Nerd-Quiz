@@ -1,10 +1,21 @@
+$(function(){
+    $('#dialog-div').dialog({
+        autoOpen: false,
+        buttons: {
+            Ok: function() {
+                $(this).dialog('close');
+            }
+        },
+        dialogClass: 'no-close'
+    });
+});
+
 function validateForm(){
-    var form = $('form#account-form')[0];
-    console.dir(form);
-    console.dir(form.elements);
-    console.dir(form.elements.password);
-    console.log("hi");
-    if(form.elements.password.val() != form.elements.password2.val()){
+    var form = document.forms.accountForm.elements,
+        pwd = form.password.value,
+        confirm = form.password2.value;
+    if(pwd != confirm){
+        $('#dialog-div').dialog('open');
         return false;
     }
     return true;

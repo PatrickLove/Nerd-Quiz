@@ -13,11 +13,11 @@
 
 #menu {
     border: none;
-    background-color: transparent;
+    background: none;
 }
 
 #tab-view {
-    background-color: transparent;
+    background: none;
     border: none;
     width: 100%;
 }

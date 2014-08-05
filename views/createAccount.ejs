@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/stylesheets/main.css"/>
     <link rel="stylesheet" href="/stylesheets/newAccount.css"/>
+    <link rel="stylesheet" href="/stylesheets/jquery-ui.css"/>
     <script src="/libs/jquery.js"></script>
     <script src="/libs/jquery-ui.js"></script>
     <script src="/js/createAccount.js"></script>
@@ -12,7 +13,7 @@
 <body>
 <div id="content-div">
     <h1 class="heading">Create an Nerd Table Account</h1>
-    <form id="account-form" method="post" action="createAccount" onsubmit="validateForm();">
+    <form id="account-form" name="accountForm" method="post" action="createAccount" onsubmit="return validateForm();">
         <h3>Create Account</h3>
         <table>
             <tr>
@@ -64,6 +65,9 @@
             </tr>
         </table>
         <button class="submit-button">Create Account</button>
+        <div id="dialog-div" title="Invalid Input">
+            Passwords must match
+        </div>
     </form>
 </div>
 </body>

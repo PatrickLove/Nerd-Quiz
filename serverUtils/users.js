@@ -11,7 +11,10 @@ var fs = require('fs'),
     };
 
 exports.validateUser = function(usr, pwd){
-    return userDataObj[usr].password == pwd;
+    if(userDataObj[usr]){
+        return userDataObj[usr].password == pwd;
+    }
+    return false;
 }
 
 exports.getUserData = function(usr){

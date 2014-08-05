@@ -1,0 +1,2 @@
+<h1>Introduction</h1>
+This is a web based service to verify that an individual is a nerd and allow them access to specialized content.  It was inspired by me and a friend's plan to create a true nerd table at lunch, where members must pass this test
