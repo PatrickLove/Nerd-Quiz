@@ -61,7 +61,11 @@ app.get('/nerdQuiz', function(req, res){
 //    if(email){
 //
 //    }
-    res.render('nerd-quiz', JSON.parse(fs.readFileSync('./json/quizzes/quiz1.json')))
+    if(!req.session.userData){
+        req.session.userData = new Object();
+    }
+    req.session.userData.email = "hello";
+    res.render('nerd-quiz', JSON.parse(fs.readFileSync('./json/quizzes/quiz1.json')));
 });
 
 app.post('/nerdQuiz/grade', function(req, res){
@@ -79,10 +83,13 @@ app.post('/nerdQuiz/grade', function(req, res){
                 resultsByQ[index] = false;
             }
         });
-        var percentage = count/correct.length
+        var percentage = count/correct.length;
         passed = percentage >= 0.85;
     }
-    req.session.quizResults = {
+    if(!req.session.userData){
+        req.session.userData = new Object();
+    }
+    req.session.userData.quizResults = {
         pass: passed,
         percent: Math.floor(percentage*100),
         resultsPerQuestion: resultsByQ
@@ -91,11 +98,54 @@ app.post('/nerdQuiz/grade', function(req, res){
 });
 
 app.get('/nerdQuiz/results', function(req, res){
-    if(req.session.quizResults){
-        res.render('results', req.session.quizResults);
+    if(req.session.userData.quizResults){
+        res.render('results', req.session.userData.quizResults);
     }
     else{
         res.render('message', messages.NO_RESULTS);
+    }
+});
+
+app.get('/createAccount', function(req, res){
+    if(req.session.loginState == 1){
+        res.render('message', messages.ALREADY_LOGGED_IN);
+    } else if(req.session.userData && req.session.userData.email){
+        var userData = req.session.userData;
+        if(userData.quizResults){
+            if(userData.quizResults.pass){
+                res.render('createAccount', {usrTaken: false});
+            }
+            else{
+                res.render('message', messages.NO_ACCOUNT_QUIZ_FAILED);
+            }
+        }
+        else{
+            res.redirect('/');
+        }
+    }
+    else{
+        res.render('message', messages.NO_ACCOUNT_TAKE_QUIZ);
+    }
+});
+
+app.post('/createAccount', function(req, res){
+    if(req.session.userData){
+        var formData = req.body,
+            userData = req.session.userData;
+        if(!users.checkUserName(formData.username)){
+        userData.password = formData.password;
+        userData.firstName = formData.firstName;
+        userData.lastName = formData.lastName;
+        users.setUserData(formData.username, userData);
+        req.session.destroy();
+        res.render('message', messages.ACCOUNT_CREATED);
+        }
+        else{
+            res.render('createAccount', {usrTaken: true});
+        }
+    }
+    else{
+        res.render('message', messages.ACCOUNT_CREATE_FAILED);
     }
 });
 

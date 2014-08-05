@@ -6,7 +6,32 @@
     },
     "CANNOT_TAKE_QUIZ_EMAIL": {
         "title": "Cannot take quiz",
-        "heading": "Email already failed quiz",
+        "heading": "Email address already failed quiz",
         "message": "We're sorry, but your email has already taken and failed the quiz this period.  You will receive an email when you can make another attempt."
+    },
+    "ALREADY_LOGGED_IN": {
+        "title": "Cannot create account",
+        "heading": "Cannot create account",
+        "message": "You already have an account (and are logged in).  What are you trying to pull?"
+    },
+    "NO_ACCOUNT_QUIZ_FAILED": {
+        "title": "Cannot create account",
+        "heading": "Cannot create account",
+        "message": "We're sorry, but you may not create an account since you previously failed the quiz"
+    },
+    "NO_ACCOUNT_TAKE_QUIZ": {
+        "title": "Cannot create account",
+        "heading": "Cannot create account",
+        "message": "To create an account, you must first <a href='/accountSetup'>register</a> and take the nerd quiz"
+    },
+    "ACCOUNT_CREATE_FAILED": {
+        "title": "Could not create account",
+        "heading": "Could not create account",
+        "message": "There was an error when creating your account, please retry the process form the beginning"
+    },
+    "ACCOUNT_CREATED": {
+        "title": "Account Created",
+        "heading": "Account Created Successfully",
+        "message": "Your account was created successfully.  Return the the home page to log in."
     }
 }

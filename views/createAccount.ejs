@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/main.css"/>
+    <link rel="stylesheet" href="/stylesheets/newAccount.css"/>
+    <script src="/libs/jquery.js"></script>
+    <script src="/libs/jquery-ui.js"></script>
+    <script src="/js/createAccount.js"></script>
+    <title>Create Account</title>
+</head>
+<body>
+<div id="content-div">
+    <h1 class="heading">Create an Nerd Table Account</h1>
+    <form id="account-form" method="post" action="createAccount" onsubmit="validateForm();">
+        <h3>Create Account</h3>
+        <table>
+            <tr>
+                <td class="form-label">
+                    Username:
+                </td>
+                <td>
+                    <input type="text" name="username" class="form-input" required/>
+                </td>
+            </tr>
+            <% if(usrTaken){ %>
+            <tr>
+                <td colspan="2" class="error-text">
+                    Username already taken
+                </td>
+            </tr>
+            <% } %>
+            <tr>
+                <td class="form-label">
+                    Password:
+                </td>
+                <td>
+                    <input type="password" name="password" class="form-input" required/>
+                </td>
+            </tr>
+            <tr>
+                <td class="form-label">
+                    Confirm Password:
+                </td>
+                <td>
+                    <input type="password" name="password2" class="form-input" required/>
+                </td>
+            </tr>
+            <tr>
+                <td class="form-label">
+                    First Name:
+                </td>
+                <td>
+                    <input type="text" name="firstName" class="form-input" required/>
+                </td>
+            </tr>
+            <tr>
+                <td class="form-label">
+                    Last Name:
+                </td>
+                <td>
+                    <input type="text" name="lastName" class="form-input" required/>
+                </td>
+            </tr>
+        </table>
+        <button class="submit-button">Create Account</button>
+    </form>
+</div>
+</body>
+</html>
