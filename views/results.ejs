@@ -1,0 +1,45 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/main.css"/>
+    <link rel="stylesheet" href="/stylesheets/results.css"/>
+    <script src="/libs/jquery.js"></script>
+    <script src="/libs/jquery-ui.js"></script>
+    <title>The Nerd Quiz</title>
+</head>
+<body>
+    <div id="content-div">
+    <h1 class="heading">Results:</h1>
+    <h2><%=pass ? 'You Passed' : 'You Failed'%></h2>
+    <table id="results-table">
+        <tr>
+            <td class="form-label">
+                Percent:
+            </td>
+            <td class="result-<%=pass ? 'pass' : 'fail'%>">
+                <%= percent %>%
+            </td>
+        </tr>
+        <%resultsPerQuestion.forEach(function(didPass, index){%>
+        <%var qNum = index + 1, qName = 'Question ' + qNum + ':'; %>
+        <tr>
+            <td class="form-label">
+                <%= qName %>
+            </td>
+            <td class="result-<%=didPass ? 'pass' : 'fail'%>">
+                <%= didPass ? 'Correct' : 'Incorrect or Unanswered' %>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+    <div id="results-message">
+        <% if(pass){ %>
+            Congratulations, you are officially a nerd.  To proceed with your account setup, <a href="/createAccount">click here</a>
+        <% } else { %>
+            Sorry, but you did not pass as a nerd.  To minimize cheating, you will not be able to take the test again until the end of this period.  You will receive an email when you can make another attempt.<br>
+        <a href="/">Return to home</a>
+        <% } %>
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/main.css"/>
+    <link rel="stylesheet" href="/stylesheets/quiz.css"/>
+    <script src="/libs/jquery.js"></script>
+    <script src="/libs/jquery-ui.js"></script>
+    <title>The Nerd Quiz</title>
+</head>
+<body>
+    <div id="content-div">
+        <h1 class="heading">Take the Nerd Quiz</h1>
+        <form id="quiz-form" name="quizForm" action="/nerdQuiz/grade" method="post">
+
+            <!-- Generate Questions -->
+            <% questions.forEach(function(question, index){ %>
+            <% var qNum = (index + 1), qName = 'question' + qNum;%>
+            <table class="question-table">
+                <tr>
+                    <td class="question-text">
+                        <%= qNum + '. ' + question.text %>
+                    </td>
+                    <td rowspan="2" class="image-cell">
+                        <% if(question.image){ %>
+                            <img class="question-image" src="<%= 'img/' + question.image %>">
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="choices-cell">
+                        <% question.choices.forEach(function(choice, choiceID){ %>
+                            <span class="choice-button">
+                                <input type="radio" name="usrAnswers[<%=index%>]" value="<%=choiceID%>"/><%= choice %>
+                            </span><br>
+                        <% }); %>
+                        <input type="hidden" name="<%= 'rightAnswers[' + index + ']' %>" value="<%= question.answer %>"/>
+                    </td>
+                </tr>
+            </table>
+            <% }); %>
+            <button id="submit-quiz">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

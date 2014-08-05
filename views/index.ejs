@@ -42,7 +42,9 @@
                         Aren't a registered nerd? <a href="/accountSetup">Take the nerd test.</a>
                     </div>
                     <div class="error-text">
-                        <%= error %>
+                        <% if(error){ %>
+                            <%= error %>
+                        <% } %>
                     </div>
                 </form>
             </td>

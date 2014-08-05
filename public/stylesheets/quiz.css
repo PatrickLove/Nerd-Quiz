@@ -1,0 +1,22 @@
+.question-table {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 5px;
+}
+.image-cell {
+    width: 25%;
+}
+.question-image{
+    width: 100%;
+    height: auto;
+}
+.choice-button {
+    display: inline-block;
+    padding: 5px;
+}
+#quiz-form{
+    font-size: 15pt;
+    font-family: Arial;
+}

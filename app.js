@@ -1,10 +1,12 @@
 var express = require('express'),
     app = express(),
     path = require('path'),
+    fs = require('fs'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
     security = require('./serverUtils/security.js'),
-    users = require('./serverUtils/users.js');
+    users = require('./serverUtils/users.js'),
+    messages = JSON.parse(fs.readFileSync('./json/messages/messages.json'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -52,6 +54,49 @@ app.post('/login', function(req, res){
 app.get('/logout', function(req, res){
     req.session.destroy();
     res.redirect('/');
+});
+
+app.get('/nerdQuiz', function(req, res){
+//    var email = security.decryptString(res.query.e);
+//    if(email){
+//
+//    }
+    res.render('nerd-quiz', JSON.parse(fs.readFileSync('./json/quizzes/quiz1.json')))
+});
+
+app.post('/nerdQuiz/grade', function(req, res){
+    var passed = false,
+        resultsByQ = [];
+    if(req.body.usrAnswers){
+        var correct = req.body.rightAnswers,
+            usr = req.body.usrAnswers,
+            count = 0;
+        usr.forEach(function(answer, index){
+            if(answer == correct[index]){
+                count++;
+                resultsByQ[index] = true;
+            } else {
+                resultsByQ[index] = false;
+            }
+        });
+        var percentage = count/correct.length
+        passed = percentage >= 0.85;
+    }
+    req.session.quizResults = {
+        pass: passed,
+        percent: Math.floor(percentage*100),
+        resultsPerQuestion: resultsByQ
+    };
+    res.redirect('/nerdQuiz/results');
+});
+
+app.get('/nerdQuiz/results', function(req, res){
+    if(req.session.quizResults){
+        res.render('results', req.session.quizResults);
+    }
+    else{
+        res.render('message', messages.NO_RESULTS);
+    }
 });
 
 app.listen(3000);

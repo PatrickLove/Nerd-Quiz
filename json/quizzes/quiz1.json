@@ -1,0 +1,29 @@
+{
+    "questions": [
+        {
+            "text": "Simplify the expression: 1+1*1/1-1",
+            "choices": [
+                "0",
+                "1",
+                "2",
+                "3"
+            ],
+            "answer": 1
+        },
+        {
+            "text": "True or false: Walruses are the best",
+            "choices": [
+                "true",
+                "false"
+            ],
+            "answer": 0
+        },
+        {
+            "text": "Welp, tough one here",
+            "choices": [
+                "This is the answer"
+            ],
+            "answer": 0
+        }
+    ]
+}

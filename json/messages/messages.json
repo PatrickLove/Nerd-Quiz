@@ -1,0 +1,12 @@
+{
+    "NO_RESULTS": {
+        "title": "No Results",
+        "heading": "No Quiz Results",
+        "message": "No results were found for this session.  To take the nerd quiz, please <a href='/accountSetup'>make an account</a>"
+    },
+    "CANNOT_TAKE_QUIZ_EMAIL": {
+        "title": "Cannot take quiz",
+        "heading": "Email already failed quiz",
+        "message": "We're sorry, but your email has already taken and failed the quiz this period.  You will receive an email when you can make another attempt."
+    }
+}

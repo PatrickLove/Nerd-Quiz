@@ -1,0 +1,15 @@
+#results-table {
+    background-color: #FFAAAA;
+    border: 1px solid #FFFF00;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.result-fail {
+    color: red;
+}
+
+.result-pass {
+    color: green;
+}
