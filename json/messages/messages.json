@@ -2,7 +2,7 @@
     "NO_RESULTS": {
         "title": "No Results",
         "heading": "No Quiz Results",
-        "message": "No results were found for this session.  To take the nerd quiz, please <a href='/accountSetup'>make an account</a>"
+        "message": "No results were found for this session.  To take the nerd quiz, please <a href='/account/setup'>make an account</a>"
     },
     "CANNOT_TAKE_QUIZ_EMAIL": {
         "title": "Cannot take quiz",
@@ -22,7 +22,7 @@
     "NO_ACCOUNT_TAKE_QUIZ": {
         "title": "Cannot create account",
         "heading": "Cannot create account",
-        "message": "To create an account, you must first <a href='/accountSetup'>register</a> and take the nerd quiz"
+        "message": "To create an account, you must first <a href='/account/setup'>register</a> and take the nerd quiz"
     },
     "ACCOUNT_CREATE_FAILED": {
         "title": "Could not create account",

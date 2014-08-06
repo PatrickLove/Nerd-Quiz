@@ -1,6 +1,8 @@
 var fs = require('fs'),
     userDataPath = './json/userData.json',
+    emailBlacklistPath = './json/emailBlacklist.json',
     userDataObj = JSON.parse(fs.readFileSync(userDataPath)),
+    emailBlacklist = JSON.parse(fs.readFileSync(emailBlacklistPath)),
     helperFunctions = {
         fullName: function(usrData) {
             if(hasData(usrData, 'firstName', 'lastName')){
@@ -40,6 +42,28 @@ exports.setUserData = function(usr, dataObj){
 
 exports.checkUserName = function(usr){
     return userDataObj[usr];
+}
+
+exports.checkEmail = function(email){
+    return !emailBlacklist[email];
+}
+
+exports.isEmailUsed = function(email){
+    for(index in userDataObj){
+        if(userDataObj[index].email == email){
+            return true;
+        }
+    }
+    return checkEmail(email);
+}
+
+exports.blockEmail = function(email){
+    emailBlacklist[email] = true;
+    saveEmailBList();
+}
+
+function saveEmailBList(){
+    fs.writeFile(emailBlacklistPath, JSON.stringify(emailBlacklist));
 }
 
 function saveUserData(){

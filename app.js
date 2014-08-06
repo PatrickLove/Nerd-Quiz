@@ -99,14 +99,18 @@ app.post('/nerdQuiz/grade', function(req, res){
 
 app.get('/nerdQuiz/results', function(req, res){
     if(req.session.userData.quizResults){
-        res.render('results', req.session.userData.quizResults);
+        var results = req.session.userData.quizResults;
+        if(!results.pass){
+            users.blockEmail(req.session.userData.email);
+        }
+        res.render('results', results);
     }
     else{
         res.render('message', messages.NO_RESULTS);
     }
 });
 
-app.get('/createAccount', function(req, res){
+app.get('/account/create', function(req, res){
     if(req.session.loginState == 1){
         res.render('message', messages.ALREADY_LOGGED_IN);
     } else if(req.session.userData && req.session.userData.email){
@@ -128,7 +132,7 @@ app.get('/createAccount', function(req, res){
     }
 });
 
-app.post('/createAccount', function(req, res){
+app.post('/account/create', function(req, res){
     if(req.session.userData){
         var formData = req.body,
             userData = req.session.userData;
@@ -147,6 +151,19 @@ app.post('/createAccount', function(req, res){
     else{
         res.render('message', messages.ACCOUNT_CREATE_FAILED);
     }
+});
+
+app.get('/account/setup', function(req, res){
+    if(req.session.loginState == 1){
+        res.redirect('/');
+    }
+    else {
+        res.render('setupAccount');
+    }
+});
+
+app.post('/account/setup', function(req, res){
+
 });
 
 app.listen(3000);

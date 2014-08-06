@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <link rel="stylesheet" href="/stylesheets/main.css"/>
+    <meta charset="UTF-8">
+    <title>Setup Account</title>
+</head>
+<body>
+<div id="content-div">
+    <h1 class="heading">Nerd Table Account Setup</h1>
+    <p>
+        To take the nerd quiz, you must first enter and verify an email address so we can keep track of your identity.  In the box below, enter your email and hit send.  This will send you an email with a link to the quiz itself.
+    </p>
+    <form method="post" action="/sendEmail">
+        <span id="form-label">Email:</span>
+        <input type="email" name="email"/>
+        <button>Send Email</button>
+    </form>
+</div>
+</body>
+</html>
