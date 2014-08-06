@@ -1,0 +1,10 @@
+<h3>Invite Friends to join the Nerd Table</h3>
+<p>
+    The nerd table is no fun alone, so invite your friends to join.  Simply enter their email into the box below and hit send.  Your friend will receive an email with instructions on how to register for the nerd table.
+</p>
+<form action="/sendEmail" method="post">
+    <span class="form-label">Friend's email address:</span>
+    <input type="email" name="email">
+    <input type="hidden" value="true" name="friend-invite">
+    <button>Invite Friend</button>
+</form>
