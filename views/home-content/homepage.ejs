@@ -1,1 +1,52 @@
-Home Content TBD
+    <div id="wrapper" style="display: none">
+        <h1 class="explodable">Test of jQuery, Node, and CSS3</h1>
+        <table>
+            <tr>
+                <td>
+                    <div id="accordion-div" class="explodable">
+                        <div class="accordion-head">
+                            List 1
+                        </div>
+                        <ol class="reordered-list">
+                            <li>This</li>
+                            <li>Can</li>
+                            <li>Be</li>
+                            <li>Reordered</li>
+                        </ol>
+                        <div class="accordion-head">
+                            List 2
+                        </div>
+                        <ol class="reordered-list">
+                            <li>This</li>
+                            <li>Is</li>
+                            <li>Another</li>
+                            <li>List</li>
+                        </ol>
+                        <div class="accordion-head">
+                            List 3
+                        </div>
+                        <ol class="reordered-list">
+                            <li>A</li>
+                            <li>Third</li>
+                            <li>List</li>
+                            <li>?!?!?!?!?</li>
+                        </ol>
+                    </div>
+                </td>
+                <td>
+                    <div id="lorem-ipsum" class="explodable">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pretium felis quis risus facilisis vehicula. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed metus tellus, mattis id interdum eu, eleifend eget odio. Fusce posuere cursus mi, sit amet vestibulum justo suscipit viverra. Mauris quis iaculis lacus. Phasellus sed sem in magna elementum venenatis ut sit amet diam. Aliquam erat volutpat. Vestibulum aliquam placerat erat, sit amet vestibulum nisi vestibulum ut. Donec facilisis, tellus in fermentum fermentum, libero dui fermentum mauris, sed rutrum est velit ut turpis. Praesent ut velit ac tortor feugiat semper. Vivamus et sapien luctus.
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script>
+    $('document').ready(function(){
+        $('#wrapper').show('blind', null, 1000);
+    });
+    $(function(){
+        $("#accordion-div").accordion();
+        $(".reordered-list").sortable();
+    });
+    </script>

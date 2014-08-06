@@ -62,3 +62,51 @@ h1.heading {
 .no-close .ui-dialog-titlebar-close {
     display: none
 }
+
+
+
+
+
+
+#wrapper .reordered-list li {
+    padding: 0.5%;
+    margin: 2px;
+    background-color: #DDDDFF;
+    border: 1px solid black;
+    border-radius: 4px;
+    width: 25%;
+    min-width: 100px;
+}
+#wrapper .reordered-list {
+    list-style-type: none;
+}
+
+#wrapper h1 {
+    color: #777777;
+    font-family: 'Arial Black';
+}
+
+#wrapper body {
+    font-family: Arial;
+    background-color: #FAFAFA;
+}
+
+#wrapper #accordion-div {
+    width: 50vw;
+}
+
+#wrapper td {
+    vertical-align: top;
+}
+
+#wrapper #lorem-ipsum {
+    padding: 0 2% 0 2%;
+}
+
+#wrapper #explosions {
+    background-color: #FFAA00;
+    font-size: 20px;
+    width: 200px;
+    height: 50px;
+    margin-top: 30px;
+}

@@ -4,10 +4,20 @@
         "heading": "No Quiz Results",
         "message": "No results were found for this session.  To take the nerd quiz, please <a href='/account/setup'>make an account</a>"
     },
-    "CANNOT_TAKE_QUIZ_EMAIL": {
+    "CANNOT_TAKE_QUIZ_EMAIL_FAILED": {
         "title": "Cannot take quiz",
         "heading": "Email address already failed quiz",
         "message": "We're sorry, but your email has already taken and failed the quiz this period.  You will receive an email when you can make another attempt."
+    },
+    "CANNOT_TAKE_QUIZ_EMAIL_EXISTS": {
+        "title": "Cannot take quiz",
+        "heading": "Account exists",
+        "message": "We're sorry, but an account with this email already exists."
+    },
+    "CANNOT_TAKE_QUIZ_NO_EMAIL" : {
+        "title": "Cannot take quiz",
+        "heading": "Register to take quiz",
+        "message": "To take the nerd quiz, you must first <a href='/account/setup'>register</a> by providing your email"
     },
     "ALREADY_LOGGED_IN": {
         "title": "Cannot create account",
@@ -33,5 +43,15 @@
         "title": "Account Created",
         "heading": "Account Created Successfully",
         "message": "Your account was created successfully.  Return the the home page to log in."
+    },
+    "EMAIL_ACCOUNT_SETUP" : {
+        "title" : "Email Sent",
+        "heading" : "Email Sent Successfully",
+        "message" : "An email containing a link to the quiz has been sent to your email.  "
+    },
+    "EMAIL_INVITE_FRIEND" : {
+        "title" : "Email Sent",
+        "heading" : "Email Sent Successfully",
+        "message" : "An email was successfully sent to your friend"
     }
 }

@@ -3,11 +3,11 @@ exports.randomString = function(len){
 }
 
 exports.secureString = function(rawStr){
-    var coeff = randInt(10, 99),
+    var coeff = randInt(10, 70),
         ret = "";
     for(i = 0; i < rawStr.length; i++){
         var char = rawStr.charCodeAt(i);
-        ret = ret + leadZero((char*coeff) + "", 5);
+        ret = ret + leadZero((char*coeff) + "", 4);
     }
     var coStr = coeff + "";
     ret = coStr.charAt(1) + ret + coStr.charAt(0);
@@ -15,12 +15,12 @@ exports.secureString = function(rawStr){
 }
 
 exports.decryptString = function(encodeStr){
-    if((encodeStr.length - 2) % 5 == 0){
+    if(encodeStr && (encodeStr.length - 2) % 4 == 0){
         var coStr = encodeStr.charAt(encodeStr.length-1) + encodeStr.charAt(0),
             messStr = encodeStr.substring(1, encodeStr.length-1),
             coeff = parseInt(coStr),
             ret = "";
-        messStr.match(/...../g).forEach(function(multChar){
+        messStr.match(/..../g).forEach(function(multChar){
             var num = parseInt(multChar),
                 char = String.fromCharCode(num/coeff);
             ret = ret + char;

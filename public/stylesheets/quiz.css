@@ -12,11 +12,34 @@
     width: 100%;
     height: auto;
 }
-.choice-button {
-    display: inline-block;
-    padding: 5px;
-}
 #quiz-form{
     font-size: 15pt;
     font-family: Arial;
+}
+
+.choice-button {
+    display: inline-block;
+    width: 100%;
+}
+
+.choice-button label {
+    display: block;
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #FF9999;
+    color: black;
+    border-radius: 5px;
+}
+
+.choice-button label:hover {
+    background-color: #FFCCCC;
+}
+
+.choice-button input[type=radio]:checked+label {
+    background-color: green;
+    color: white;
+}
+
+.choice-button input[type=radio] {
+    display: none;
 }

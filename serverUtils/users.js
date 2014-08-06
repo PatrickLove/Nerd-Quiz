@@ -21,11 +21,14 @@ exports.validateUser = function(usr, pwd){
 
 exports.getUserData = function(usr){
     var storedData =  userDataObj[usr];
-    storedData.username = usr;
-    for(name in helperFunctions){
-        storedData[name] = helperFunctions[name](storedData);
+    if(storedData){
+        storedData.username = usr;
+        for(name in helperFunctions){
+            storedData[name] = helperFunctions[name](storedData);
+        }
+        return storedData;
     }
-    return storedData;
+    return null;
 }
 
 exports.setUserData = function(usr, dataObj){
@@ -45,16 +48,12 @@ exports.checkUserName = function(usr){
 }
 
 exports.checkEmail = function(email){
-    return !emailBlacklist[email];
-}
-
-exports.isEmailUsed = function(email){
     for(index in userDataObj){
         if(userDataObj[index].email == email){
-            return true;
+            return 2;
         }
     }
-    return checkEmail(email);
+    return emailBlacklist[email] ? 1:0;
 }
 
 exports.blockEmail = function(email){

@@ -4,9 +4,14 @@ var express = require('express'),
     fs = require('fs'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
+    emailMan = require('./serverUtils/email-manager.js'),
     security = require('./serverUtils/security.js'),
     users = require('./serverUtils/users.js'),
     messages = JSON.parse(fs.readFileSync('./json/messages/messages.json'));
+
+function logError(err){
+    console.log(err);
+}
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
@@ -57,37 +62,48 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/nerdQuiz', function(req, res){
-//    var email = security.decryptString(res.query.e);
-//    if(email){
-//
-//    }
-    if(!req.session.userData){
-        req.session.userData = new Object();
+    var email = security.decryptString(req.query.e);
+    if(email){
+        var emailCode = users.checkEmail(email);
+        if(emailCode == 1){
+            res.render('message', messages.CANNOT_TAKE_QUIZ_EMAIL_FAILED)
+        } else if(emailCode == 2){
+            res.render('message', messages.CANNOT_TAKE_QUIZ_EMAIL_EXISTS);
+        }else {
+            req.session.regenerate(function(){
+                req.session.userData = new Object();
+                req.session.userData.email = email;
+                req.query = null;
+                res.render('nerd-quiz', JSON.parse(fs.readFileSync('./json/quizzes/quiz1.json')));
+            });
+        }
     }
-    req.session.userData.email = "hello";
-    res.render('nerd-quiz', JSON.parse(fs.readFileSync('./json/quizzes/quiz1.json')));
+    else{
+        res.render('message', messages.CANNOT_TAKE_QUIZ_NO_EMAIL)
+    }
 });
 
 app.post('/nerdQuiz/grade', function(req, res){
     var passed = false,
-        resultsByQ = [];
+        resultsByQ = [],
+        percentage = 0;
     if(req.body.usrAnswers){
         var correct = req.body.rightAnswers,
             usr = req.body.usrAnswers,
             count = 0;
-        usr.forEach(function(answer, index){
-            if(answer == correct[index]){
+        correct.forEach(function(answer, index){
+            if(answer == usr[index]){
                 count++;
                 resultsByQ[index] = true;
             } else {
                 resultsByQ[index] = false;
             }
         });
-        var percentage = count/correct.length;
+        percentage = count/correct.length;
         passed = percentage >= 0.85;
     }
     if(!req.session.userData){
-        req.session.userData = new Object();
+        req.session.userData = {};
     }
     req.session.userData.quizResults = {
         pass: passed,
@@ -133,7 +149,7 @@ app.get('/account/create', function(req, res){
 });
 
 app.post('/account/create', function(req, res){
-    if(req.session.userData){
+    if(req.session.loginState != 1 && req.session.userData){
         var formData = req.body,
             userData = req.session.userData;
         if(!users.checkUserName(formData.username)){
@@ -162,8 +178,22 @@ app.get('/account/setup', function(req, res){
     }
 });
 
-app.post('/account/setup', function(req, res){
-
+app.post('/email', function(req, res){
+    var userData = req.session.userData,
+        formData = req.body;
+    if(formData){
+        var to = formData.email,
+            type = formData.mailType,
+            args = {to: to};
+        if(userData){
+            args.sender = userData;
+        }
+        emailMan.sendEmail(type, args);
+        res.render('message', messages.EMAIL_SENT);
+    }
+    else{
+        res.redirect('/');
+    }
 });
 
 app.listen(3000);
