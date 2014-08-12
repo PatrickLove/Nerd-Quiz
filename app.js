@@ -46,13 +46,19 @@ app.get('/home', function(req, res){
 app.post('/login', function(req, res){
     var pwd = req.body.password,
         usr = req.body.username;
-    if(pwd && usr && users.validateUser(usr, pwd)){
-        req.session.userData = users.getUserData(usr);
-        req.session.loginState = 1;
-        res.redirect('/home');
-    } else {
-        req.session.loginState = -1;
-        res.redirect('/');
+    if(pwd && usr){
+        users.validateUser(usr, pwd, function(dbres){
+            if(dbres){
+                users.getUserData(usr, function(data){
+                    req.session.userData = data;
+                    req.session.loginState = 1;
+                    res.redirect('/home');
+                });
+            } else {
+                req.session.loginState = -1;
+                res.redirect('/');
+            }
+        });
     }
 });
 
@@ -64,19 +70,20 @@ app.get('/logout', function(req, res){
 app.get('/nerdQuiz', function(req, res){
     var email = security.decryptString(req.query.e);
     if(email){
-        var emailCode = users.checkEmail(email);
-        if(emailCode == 1){
-            res.render('message', messages.CANNOT_TAKE_QUIZ_EMAIL_FAILED)
-        } else if(emailCode == 2){
-            res.render('message', messages.CANNOT_TAKE_QUIZ_EMAIL_EXISTS);
-        }else {
-            req.session.regenerate(function(){
-                req.session.userData = new Object();
-                req.session.userData.email = email;
-                req.query = null;
-                res.render('nerd-quiz', JSON.parse(fs.readFileSync('./json/quizzes/quiz1.json')));
-            });
-        }
+        users.checkEmail(email, function(emailCode){
+            if(emailCode == 1){
+                res.render('message', messages.CANNOT_TAKE_QUIZ_EMAIL_FAILED)
+            } else if(emailCode == 2){
+                res.render('message', messages.CANNOT_TAKE_QUIZ_EMAIL_EXISTS);
+            }else {
+                req.session.regenerate(function(){
+                    req.session.userData = new Object();
+                    req.session.userData.email = email;
+                    req.query = null;
+                    res.render('nerd-quiz', JSON.parse(fs.readFileSync('./json/quizzes/quiz1.json')));
+                });
+            }
+        });
     }
     else{
         res.render('message', messages.CANNOT_TAKE_QUIZ_NO_EMAIL)
@@ -152,17 +159,20 @@ app.post('/account/create', function(req, res){
     if(req.session.loginState != 1 && req.session.userData){
         var formData = req.body,
             userData = req.session.userData;
-        if(!users.checkUserName(formData.username)){
-        userData.password = formData.password;
-        userData.firstName = formData.firstName;
-        userData.lastName = formData.lastName;
-        users.setUserData(formData.username, userData);
-        req.session.destroy();
-        res.render('message', messages.ACCOUNT_CREATED);
-        }
-        else{
-            res.render('createAccount', {usrTaken: true});
-        }
+        users.checkUserName(formData.username, function(dbres){
+            if(!dbres){
+                userData.password = formData.password;
+                userData.firstName = formData.firstName;
+                userData.lastName = formData.lastName;
+                userData.username = formData.username;
+                users.setUserData(userData);
+                req.session.destroy();
+                res.render('message', messages.ACCOUNT_CREATED);
+            }
+            else{
+                res.render('createAccount', {usrTaken: true});
+            }
+        });
     }
     else{
         res.render('message', messages.ACCOUNT_CREATE_FAILED);
@@ -189,7 +199,7 @@ app.post('/email', function(req, res){
             args.sender = userData;
         }
         emailMan.sendEmail(type, args);
-        res.render('message', messages.EMAIL_SENT);
+        res.render('message', messages[type]);
     }
     else{
         res.redirect('/');

@@ -1,8 +1,5 @@
-var fs = require('fs'),
-    userDataPath = './json/userData.json',
-    emailBlacklistPath = './json/emailBlacklist.json',
-    userDataObj = JSON.parse(fs.readFileSync(userDataPath)),
-    emailBlacklist = JSON.parse(fs.readFileSync(emailBlacklistPath)),
+var mongodb = require('mongodb'),
+    DBpath = "mongodb://192.168.1.47:27017/NerdQuiz",
     helperFunctions = {
         fullName: function(usrData) {
             if(hasData(usrData, 'firstName', 'lastName')){
@@ -12,61 +9,79 @@ var fs = require('fs'),
         }
     };
 
-exports.validateUser = function(usr, pwd){
-    if(userDataObj[usr]){
-        return userDataObj[usr].password == pwd;
-    }
-    return false;
+exports.validateUser = function(usr, pwd, callback){
+    runWithDb(function(err, db){
+        var users = db.collection('UserData');
+        users.findOne({username: usr, password: pwd}, function(err, res){
+            callback(res);
+        });
+    });
 }
 
-exports.getUserData = function(usr){
-    var storedData =  userDataObj[usr];
-    if(storedData){
-        storedData.username = usr;
-        for(name in helperFunctions){
-            storedData[name] = helperFunctions[name](storedData);
-        }
-        return storedData;
-    }
-    return null;
+exports.getUserData = function(usr, callback){
+    runWithDb(function(err, db){
+        var users = db.collection('UserData');
+        users.findOne({username: usr}, function(err, res){
+            var storedData = res;
+            if(storedData){
+                storedData.username = usr;
+                for(name in helperFunctions){
+                    storedData[name] = helperFunctions[name](storedData);
+                }
+                callback(storedData);
+            }
+            else{
+                callback(null);
+            }
+        });
+    });
 }
 
-exports.setUserData = function(usr, dataObj){
-    if(!userDataObj[usr]){
-        userDataObj[usr] = new Object();
-    }
-    for(index in dataObj){
-        if(index != 'username'){
-            userDataObj[usr][index] = dataObj[index];
-        }
-    }
-    saveUserData()
+exports.setUserData = function(dataObj){
+    runWithDb(function(err, db){
+        if(err) throw err;
+        var users = db.collection('UserData');
+        users.insert(dataObj, function(err){if(err) console.log(err);});
+    });
 }
 
-exports.checkUserName = function(usr){
-    return userDataObj[usr];
+exports.checkUserName = function(usr, callback){
+    runWithDb(function(err, db){
+        var users = db.collection('UserData');
+        users.findOne({username: usr}, function(err, res){
+            callback(res);
+        });
+    });
 }
 
-exports.checkEmail = function(email){
-    for(index in userDataObj){
-        if(userDataObj[index].email == email){
-            return 2;
-        }
-    }
-    return emailBlacklist[email] ? 1:0;
+exports.checkEmail = function(email, callback){
+    runWithDb(function(err, db){
+        var users = db.collection('UserData');
+        users.findOne({email: email}, function(err, res){
+            if(res){
+                callback(2);
+            }
+            else{
+                var blacklist = db.collection('EmailBlacklist');
+                blacklist.findOne({email: email}, function(err, res){
+                    if(res){
+                        callback(1);
+                    }
+                    else{
+                        callback(0);
+                    }
+                })
+            }
+        });
+    });
 }
 
 exports.blockEmail = function(email){
-    emailBlacklist[email] = true;
-    saveEmailBList();
-}
-
-function saveEmailBList(){
-    fs.writeFile(emailBlacklistPath, JSON.stringify(emailBlacklist));
-}
-
-function saveUserData(){
-    fs.writeFile(userDataPath, JSON.stringify(userDataObj));
+    runWithDb(function(err, db){
+        if(err) throw err;
+        var blacklist = db.collection('EmailBlacklist');
+        blacklist.insert({email: email}, function(err){if(err) console.log(err);});
+    });
 }
 
 function hasData(usrData){
@@ -78,4 +93,8 @@ function hasData(usrData){
         }
     });
     return ret;
+}
+
+function runWithDb(code){
+    mongodb.connect(DBpath, code);
 }
