@@ -7,15 +7,15 @@
         "subject" : "You have been invited to the Nerd Table",
         "text" : "Your friend, <sender>, has invited you to create a nerd table account.  To create an account with this email address, go here: <quiz>.\nOtherwise, go to the account setup page (<setup>) and enter your preferred email address."
     },
-    "from" : "NO_REPLY <patricklove1701@gmail.com>",
+    "from" : "NO_REPLY <no-reply@thenerdquiz.com>",
     "links" : [
         {
-            "path" : "192.168.1.47:3000/nerdQuiz",
+            "path" : "192.168.1.98:3000/nerdQuiz",
             "replaces" : "<quiz>",
             "constructor" : "makeQuizLink"
         },
         {
-            "path" : "192.168.1.47:3000/account/setup",
+            "path" : "192.168.1.98:3000/account/setup",
             "replaces" : "<setup>"
         },
         {

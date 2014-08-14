@@ -1,5 +1,5 @@
 var mongodb = require('mongodb'),
-    DBpath = "mongodb://192.168.1.47:27017/NerdQuiz",
+    DBpath = "mongodb://192.168.1.98:27017/NerdQuiz",
     helperFunctions = {
         fullName: function(usrData) {
             if(hasData(usrData, 'firstName', 'lastName')){

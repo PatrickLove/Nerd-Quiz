@@ -1,13 +1,7 @@
 var nodemailer = require('nodemailer'),
     fs = require('fs'),
     emailsPath = './json/messages/emailMessages.json',
-    emailServer = nodemailer.createTransport({
-                     service: 'Gmail',
-                     auth : {
-                        user: 'patricklove1701@gmail.com',
-                        pass: 'stella90'
-                     }
-                  }),
+    emailServer = nodemailer.createTransport(),
     emails = JSON.parse(fs.readFileSync(emailsPath));
 
 var constructors = {
