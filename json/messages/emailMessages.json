@@ -7,12 +7,21 @@
         "subject" : "You have been invited to the Nerd Table",
         "text" : "Your friend, <sender>, has invited you to create a nerd table account.  To create an account with this email address, go here: <quiz>.\nOtherwise, go to the account setup page (<setup>) and enter your preferred email address."
     },
+    "EMAIL_PASSWORD_RESET" : {
+        "subject" : "Nerd Table password reset",
+        "text" : "Click the following link to reset your password: <passwordReset>"
+    },
     "from" : "NO_REPLY <no-reply@thenerdquiz.com>",
     "links" : [
         {
             "path" : "192.168.1.98:3000/nerdQuiz",
             "replaces" : "<quiz>",
-            "constructor" : "makeQuizLink"
+            "constructor" : "encodeEmail"
+        },
+        {
+            "path" : "192.168.1.98:3000/account/resetPassword",
+            "replaces" : "<passwordReset>",
+            "constructor" : "encodeEmail"
         },
         {
             "path" : "192.168.1.98:3000/account/setup",

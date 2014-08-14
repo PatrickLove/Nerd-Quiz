@@ -206,4 +206,47 @@ app.post('/email', function(req, res){
     }
 });
 
+app.get('/newPassword', function(req, res){
+    res.render("passwordReset");
+});
+
+app.get('/account/resetPassword', function(req, res){
+    var email = security.decryptString(req.query.e);
+    if(email){
+        users.checkEmail(email, function(emailCode){
+            if(emailCode == 2){
+                req.session.regenerate(function(){
+                    req.session.userData = new Object();
+                    req.session.userData.email = email;
+                    req.query = null;
+                    res.render('changePassword');
+                });
+            }else {
+            }
+        });
+    }
+    else{
+        res.render('message', messages.CANNOT_RESET_PASSWORD_NO_EMAIL)
+    }
+});
+
+app.post('/account/resetPassword', function(req, res){
+    if(req.session.loginState != 1 && req.session.userData){
+        var formData = req.body,
+            userData = req.session.userData;
+        users.updateUserData({email: userData.email}, {password: formData.password}, function(err, dbres){
+            if(!err && dbres >= 1){
+                req.session.destroy();
+                res.render('message', messages.PASSWORD_CHANGED);
+            }
+            else{
+                res.render('message', messages.PASSWORD_CHANGE_FAILED_NOT_ACCOUNT);
+            }
+        });
+    }
+    else{
+        res.render('message', messages.PASSWORD_CHANGE_FAILED);
+    }
+});
+
 app.listen(3000);

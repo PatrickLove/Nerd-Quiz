@@ -19,6 +19,11 @@
         "heading": "Register to take quiz",
         "message": "To take the nerd quiz, you must first <a href='/account/setup'>register</a> by providing your email"
     },
+    "CANNOT_RESET_PASSWORD_NO_EMAIL" : {
+        "title": "Cannot take quiz",
+        "heading": "Register to take quiz",
+        "message": "To change your password, you must first send an email verification <a href='/newPassword'>here</a>"
+    },
     "ALREADY_LOGGED_IN": {
         "title": "Cannot create account",
         "heading": "Cannot create account",
@@ -53,5 +58,25 @@
         "title" : "Email Sent",
         "heading" : "Email Sent Successfully",
         "message" : "An email was successfully sent to your friend"
+    },
+    "EMAIL_PASSWORD_RESET" : {
+        "title" : "Email Sent",
+        "heading" : "Email Sent Successfully",
+        "message" : "A password reset link has been sent to your email address"
+    },
+    "PASSWORD_CHANGE_FAILED" : {
+        "title": "Could not change password",
+        "heading": "Could not change password",
+        "message": "Your password could not be changed, please <a href='/newPassword'>try again</a>"
+    },
+    "PASSWORD_CHANGE_FAILED_NOT_ACCOUNT" : {
+        "title": "Could not change password",
+        "heading": "Could not change password",
+        "message": "Your password could not be changed because the email you entered does not correspond with an account"
+    },
+    "PASSWORD_CHANGED" : {
+        "title": "Password Reset",
+        "heading": "Password Reset",
+        "message": "Your password was reset successfully"
     }
 }

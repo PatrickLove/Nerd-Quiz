@@ -5,7 +5,7 @@ var nodemailer = require('nodemailer'),
     emails = JSON.parse(fs.readFileSync(emailsPath));
 
 var constructors = {
-    makeQuizLink: (function(link, args){
+    encodeEmail: (function(link, args){
         var append = require('./security.js').secureString(args.to);
         return link.path + '?e=' + append;
     }),

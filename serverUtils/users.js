@@ -37,11 +37,19 @@ exports.getUserData = function(usr, callback){
     });
 }
 
-exports.setUserData = function(dataObj){
+exports.addUserData = function(dataObj){
     runWithDb(function(err, db){
         if(err) throw err;
         var users = db.collection('UserData');
         users.insert(dataObj, function(err){if(err) console.log(err);});
+    });
+}
+
+exports.updateUserData = function(filter, newDataObj, callback){
+    runWithDb(function(err, db){
+        if(err) throw err;
+        var users = db.collection('UserData');
+        users.update(filter, { $set: newDataObj }, callback);
     });
 }
 
