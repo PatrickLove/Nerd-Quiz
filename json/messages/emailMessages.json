@@ -11,7 +11,7 @@
         "subject" : "Nerd Table password reset",
         "text" : "Click the following link to reset your password: <passwordReset>"
     },
-    "from" : "NO_REPLY <no-reply@thenerdquiz.com>",
+    "from" : "NO_REPLY <no-reply@nerdquiz.com>",
     "links" : [
         {
             "path" : "192.168.1.98:3000/nerdQuiz",

@@ -15,7 +15,7 @@ var constructors = {
 };
 
 exports.sendEmail = function(mailConstant, args){
-    emailServer.sendMail(createMail(mailConstant, args));
+    emailServer.sendMail(createMail(mailConstant, args), function(err, res) {console.log(err)});
 }
 
 function createMail(mailConstant, args){

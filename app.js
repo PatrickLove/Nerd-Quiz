@@ -222,11 +222,12 @@ app.get('/account/resetPassword', function(req, res){
                     res.render('changePassword');
                 });
             }else {
+                res.render('message', messages.CANNOT_RESET_PASSWORD_NO_ACCOUNT);
             }
         });
     }
     else{
-        res.render('message', messages.CANNOT_RESET_PASSWORD_NO_EMAIL)
+        res.render('message', messages.CANNOT_RESET_PASSWORD_NO_EMAIL);
     }
 });
 

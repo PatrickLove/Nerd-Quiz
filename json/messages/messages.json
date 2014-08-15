@@ -20,9 +20,14 @@
         "message": "To take the nerd quiz, you must first <a href='/account/setup'>register</a> by providing your email"
     },
     "CANNOT_RESET_PASSWORD_NO_EMAIL" : {
-        "title": "Cannot take quiz",
-        "heading": "Register to take quiz",
+        "title": "Cannot reset password",
+        "heading": "Email Validation Required",
         "message": "To change your password, you must first send an email verification <a href='/newPassword'>here</a>"
+    },
+    "CANNOT_RESET_PASSWORD_NO_ACCOUNT" : {
+        "title": "Cannot reset password",
+        "heading": "Email not connected to an account",
+        "message": "Your password cannot be changed because the email you used is not associated with an account<br><a href='/account/setup'>Create an account</a>"
     },
     "ALREADY_LOGGED_IN": {
         "title": "Cannot create account",
