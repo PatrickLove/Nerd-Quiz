@@ -165,7 +165,7 @@ app.post('/account/create', function(req, res){
                 userData.firstName = formData.firstName;
                 userData.lastName = formData.lastName;
                 userData.username = formData.username;
-                users.setUserData(userData);
+                users.addUserData(userData);
                 req.session.destroy();
                 res.render('message', messages.ACCOUNT_CREATED);
             }
