@@ -1,5 +1,4 @@
-var mongodb = require('mongodb'),
-    DBpath = "mongodb://192.168.1.98:27017/NerdQuiz",
+var database = require('./database-tools.js'),
     helperFunctions = {
         fullName: function(usrData) {
             if(hasData(usrData, 'firstName', 'lastName')){
@@ -10,16 +9,17 @@ var mongodb = require('mongodb'),
     };
 
 exports.validateUser = function(usr, pwd, callback){
-    runWithDb(function(err, db){
+    database.runWithDb(function(err, db){
         var users = db.collection('UserData');
         users.findOne({username: usr, password: pwd}, function(err, res){
             callback(res);
         });
     });
+    callback(null);
 }
 
 exports.getUserData = function(usr, callback){
-    runWithDb(function(err, db){
+    database.runWithDb(function(err, db){
         var users = db.collection('UserData');
         users.findOne({username: usr}, function(err, res){
             var storedData = res;
@@ -35,35 +35,65 @@ exports.getUserData = function(usr, callback){
             }
         });
     });
+    callback(null);
+}
+
+exports.getUserTables = function(usr, callback){
+    exports.getUserData(usr, function(userData){
+        callback(userData.nerdTables);
+    });
+    callback(null);
 }
 
 exports.addUserData = function(dataObj){
-    runWithDb(function(err, db){
+    database.runWithDb(function(err, db){
         if(err) throw err;
         var users = db.collection('UserData');
         users.insert(dataObj, function(err){if(err) console.log(err);});
     });
 }
 
+exports.getUsersFromIdArray = function(ids, callback){
+    exports.searchUsers({_id: {$in : ids}}, callback);
+}
+
+exports.searchUsers = function(criteria, callback){
+    database.runWithDb(function(err, db){
+        var tables = db.collection('UserData');
+        users.find(criteria, function(err, cursor){
+            if(!err){
+                cursor.toArray(function(err, docs){
+                    if(!err){
+                        callback(docs);
+                    }
+                })
+            }
+          });
+      });
+      callback(null);
+}
+
 exports.updateUserData = function(filter, newDataObj, callback){
-    runWithDb(function(err, db){
+    database.runWithDb(function(err, db){
         if(err) throw err;
         var users = db.collection('UserData');
         users.update(filter, { $set: newDataObj }, callback);
     });
+    callback(null);
 }
 
 exports.checkUserName = function(usr, callback){
-    runWithDb(function(err, db){
+    database.runWithDb(function(err, db){
         var users = db.collection('UserData');
         users.findOne({username: usr}, function(err, res){
             callback(res);
         });
     });
+    callback(null);
 }
 
 exports.checkEmail = function(email, callback){
-    runWithDb(function(err, db){
+    database.runWithDb(function(err, db){
         var users = db.collection('UserData');
         users.findOne({email: email}, function(err, res){
             if(res){
@@ -82,10 +112,11 @@ exports.checkEmail = function(email, callback){
             }
         });
     });
+    callback(null);
 }
 
 exports.blockEmail = function(email){
-    runWithDb(function(err, db){
+    database.runWithDb(function(err, db){
         if(err) throw err;
         var blacklist = db.collection('EmailBlacklist');
         blacklist.insert({email: email}, function(err){if(err) console.log(err);});
@@ -101,8 +132,4 @@ function hasData(usrData){
         }
     });
     return ret;
-}
-
-function runWithDb(code){
-    mongodb.connect(DBpath, code);
 }
