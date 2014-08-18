@@ -11,10 +11,6 @@ var express = require('express'),
     messages = JSON.parse(fs.readFileSync('./json/messages/messages.json')),
     ObjectID = require('mongodb').ObjectID;
 
-function logError(err){
-    console.log(err);
-}
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

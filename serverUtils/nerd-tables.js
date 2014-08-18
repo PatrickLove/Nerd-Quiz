@@ -91,13 +91,13 @@ exports.addUsersToTable = function(userFilter, tableFilter, callback){
                     nerdTables.forEach(function(table){
                         users.forEach(function(user){
                             if(!table.members || !database.isIdInArray(user._id, table.members)){
-                                exports.pushToNerdTable({_id : table._id}, {members : user._id}, function(err){if(err) console.log(err);});
+                                exports.pushToNerdTable({_id : table._id}, {members : user._id}, logError);
                             }
                             else{
                                 alreadyExists++;
                             }
                             if(!user.nerdTables || !database.isIdInArray(table._id, user.nerdTables)){
-                                userUtils.pushUserData({_id : user._id}, {nerdTables : table._id}, function(err){if(err) console.log(err);});
+                                userUtils.pushUserData({_id : user._id}, {nerdTables : table._id}, logError);
                             }
                             else{
                                 alreadyExists++;
@@ -124,8 +124,8 @@ exports.removeUsersFromTable = function(userFilter, tableFilter, callback){
                if(nerdTables && nerdTables.length > 0){
                    nerdTables.forEach(function(table){
                        users.forEach(function(user){
-                           exports.pullFromNerdTable({_id : table._id}, {members : user._id}, function(err){if(err) console.log(err);});
-                           userUtils.pullUserData({_id : user._id}, {nerdTables : table._id}, function(err){if(err) console.log(err);});
+                           exports.pullFromNerdTable({_id : table._id}, {members : user._id}, logError);
+                           userUtils.pullUserData({_id : user._id}, {nerdTables : table._id}, logError);
                        });
                    });
                    callback(0);
@@ -139,4 +139,10 @@ exports.removeUsersFromTable = function(userFilter, tableFilter, callback){
            callback(2)
        }
    });
+}
+
+function logError(err){
+    if(err){
+        console.log(err);
+    }
 }
