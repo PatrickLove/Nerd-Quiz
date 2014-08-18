@@ -4,3 +4,12 @@ var mongodb = require('mongodb'),
 exports.runWithDb =  function(func){
     mongodb.connect(DBpath, func);
 }
+
+exports.isIdInArray = function(id, array){
+    for(var i = 0; i < array.length; i++){
+        if(array[i].equals(id)){
+            return true;
+        }
+    }
+    return false;
+}

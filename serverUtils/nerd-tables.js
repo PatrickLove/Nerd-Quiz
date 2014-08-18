@@ -1,11 +1,12 @@
-var database = require('./database-tools.js');
+var database = require('./database-tools.js'),
+    userUtils = require('./users.js');
 
 
 
 exports.searchNerdTables = function(criteria, callback){
     database.runWithDb(function(err, db){
         var tables = db.collection('Tables');
-        users.find(criteria, function(err, cursor){
+        tables.find(criteria, function(err, cursor){
             if(!err){
                 cursor.toArray(function(err, docs){
                     if(!err){
@@ -13,9 +14,11 @@ exports.searchNerdTables = function(criteria, callback){
                     }
                 })
             }
+            else{
+                callback(null);
+            }
         });
     });
-    callback(null);
 }
 
 exports.getTableFromIdArray = function(ids, callback){
@@ -25,37 +28,115 @@ exports.getTableFromIdArray = function(ids, callback){
 exports.getNerdTable = function(criteria, callback){
     database.runWithDb(function(err, db){
         var tables = db.collection('Tables');
-        users.findOne(criteria, function(err, doc){
+        tables.findOne(criteria, function(err, doc){
             if(!err){
                 callback(doc);
             }
+            else{
+                callback(null);
+            }
         });
     });
-    callback(null);
 }
 
 exports.getTableUsers = function(criteria, callback){
     exports.getNerdTable(criteria, function(table){
         if(table){
-            callback(table.users);
+            callback(table.members);
+        }
+        else{
+            callback(null);
         }
     });
-    callback(null);
 }
 
 exports.createNerdTable = function(dataObj){
     database.runWithDb(function(err, db){
         if(err) throw err;
-        var users = db.collection('Tables');
-        users.insert(dataObj, function(err){if(err) console.log(err);});
+        var tables = db.collection('Tables');
+        tables.insert(dataObj, function(err){if(err) console.log(err);});
     });
 }
 
 exports.updateNerdTable = function(filter, newDataObj, callback){
     database.runWithDb(function(err, db){
         if(err) throw err;
-        var users = db.collection('Tables');
-        users.update(filter, { $set: newDataObj }, callback);
+        var tables = db.collection('Tables');
+        tables.update(filter, { $set: newDataObj }, callback);
     });
-    callback(null);
+}
+
+exports.pushToNerdTable = function(filter, newDataObj, callback){
+     database.runWithDb(function(err, db){
+         if(err) throw err;
+         var tables = db.collection('Tables');
+         tables.update(filter, { $push: newDataObj }, callback);
+     });
+}
+
+exports.pullFromNerdTable = function(filter, dataObj, callback){
+     database.runWithDb(function(err, db){
+         if(err) throw err;
+         var tables = db.collection('Tables');
+         tables.update(filter, { $pull: dataObj }, callback);
+     });
+}
+
+exports.addUsersToTable = function(userFilter, tableFilter, callback){
+    userUtils.searchUsers(userFilter, function(users){
+        if(users && users.length > 0){
+            exports.searchNerdTables(tableFilter, function(nerdTables){
+                if(nerdTables && nerdTables.length > 0){
+                    var alreadyExists = 0;
+                    nerdTables.forEach(function(table){
+                        users.forEach(function(user){
+                            if(!table.members || !database.isIdInArray(user._id, table.members)){
+                                exports.pushToNerdTable({_id : table._id}, {members : user._id}, function(err){if(err) console.log(err);});
+                            }
+                            else{
+                                alreadyExists++;
+                            }
+                            if(!user.nerdTables || !database.isIdInArray(table._id, user.nerdTables)){
+                                userUtils.pushUserData({_id : user._id}, {nerdTables : table._id}, function(err){if(err) console.log(err);});
+                            }
+                            else{
+                                alreadyExists++;
+                            }
+                        });
+                    });
+                    callback(0, alreadyExists/2);
+                }
+                else{
+                    callback(1);
+                }
+            });
+        }
+        else{
+            callback(2)
+        }
+    });
+}
+
+exports.removeUsersFromTable = function(userFilter, tableFilter, callback){
+   userUtils.searchUsers(userFilter, function(users){
+       if(users && users.length > 0){
+           exports.searchNerdTables(tableFilter, function(nerdTables){
+               if(nerdTables && nerdTables.length > 0){
+                   nerdTables.forEach(function(table){
+                       users.forEach(function(user){
+                           exports.pullFromNerdTable({_id : table._id}, {members : user._id}, function(err){if(err) console.log(err);});
+                           userUtils.pullUserData({_id : user._id}, {nerdTables : table._id}, function(err){if(err) console.log(err);});
+                       });
+                   });
+                   callback(0);
+               }
+               else{
+                   callback(1);
+               }
+           });
+       }
+       else{
+           callback(2)
+       }
+   });
 }

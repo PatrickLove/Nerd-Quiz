@@ -1,0 +1,31 @@
+<table class="nerd-table-list">
+    <th>
+        Name
+    </th>
+    <th>
+        Location
+    </th>
+    <th class="delete-col">
+    </th>
+    <% if(tableData.length === 0){ %>
+        <tr>
+            <td colspan="3">
+                You are not a member of any nerd tables
+            </td>
+        </tr>
+    <% } else { %>
+        <% tableData.forEach(function(table){ %>
+            <tr>
+                <td>
+                    <a href="/tables/id/<%=table._id%>"><%=table.name%></a>
+                </td>
+                <td>
+                    <%=table.location%>
+                </td>
+                <td class="delete-col">
+                    <button onclick="dropTable('<%=table._id%>', '#nerd-table-list')">Delete</button>
+                </td>
+            </tr>
+        <% }) %>
+    <% } %>
+</table>

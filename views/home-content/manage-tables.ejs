@@ -1,1 +1,19 @@
+<script>
+    $('document').ready(function(){
+        registerJoinForm('#join-form', '#nerd-table-list', '#join-err-text');
+        loadNerdTables('#nerd-table-list');
+    });
+</script>
 <h3>Manage your nerd tables</h3>
+<div id="nerd-table-list">
+    Loading Nerd Tables...
+</div>
+<h3>Join a nerd table</h3>
+<form id="join-form">
+    <label for="table-id" class="form-label">Table ID:</label>
+    <input id="table-id" type="text" name="tableID"
+           title="A valid table id is 24 characters long and contains only digits and the letters a-f"
+           pattern="[0-9|a-f]{24}" required style="width: 400px;">
+    <button>Join Table</button>
+    <div class="error-text" id="join-err-text"></div>
+</form>

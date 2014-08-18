@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="/stylesheets/jquery-ui.css"/>
     <script src="/libs/jquery.js"></script>
     <script src="/libs/jquery-ui.js"></script>
+    <script src="/libs/ejs-production.js"></script>
     <script src="/js/login-manager.js"></script>
+    <script src="/js/table-manager.js"></script>
     <script>
         $('document').ready(function(){
             $( "#tab-view" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
@@ -43,9 +45,9 @@
                     </td>
                     <td style="width: 2%;"> </td>
                     <td id="page-content-cell">
-                        <div id="home-content"><% include home-content/homepage %></div>
-                        <div id="invite"><% include home-content/friend-invite %></div>
-                        <div id="manage-table"><% include home-content/manage-tables %></div>
+                        <div id="home-content" class="tab-content"><% include home-content/homepage %></div>
+                        <div id="invite" class="tab-content"><% include home-content/friend-invite %></div>
+                        <div id="manage-table" class="tab-content"><% include home-content/manage-tables %></div>
                     </td>
                 </tr>
             </table>

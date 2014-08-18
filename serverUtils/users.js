@@ -15,16 +15,14 @@ exports.validateUser = function(usr, pwd, callback){
             callback(res);
         });
     });
-    callback(null);
 }
 
-exports.getUserData = function(usr, callback){
+exports.getUserData = function(filter, callback){
     database.runWithDb(function(err, db){
         var users = db.collection('UserData');
-        users.findOne({username: usr}, function(err, res){
+        users.findOne(filter, function(err, res){
             var storedData = res;
             if(storedData){
-                storedData.username = usr;
                 for(name in helperFunctions){
                     storedData[name] = helperFunctions[name](storedData);
                 }
@@ -35,14 +33,12 @@ exports.getUserData = function(usr, callback){
             }
         });
     });
-    callback(null);
 }
 
-exports.getUserTables = function(usr, callback){
-    exports.getUserData(usr, function(userData){
+exports.getUserTables = function(filter, callback){
+    exports.getUserData(filter, function(userData){
         callback(userData.nerdTables);
     });
-    callback(null);
 }
 
 exports.addUserData = function(dataObj){
@@ -59,7 +55,7 @@ exports.getUsersFromIdArray = function(ids, callback){
 
 exports.searchUsers = function(criteria, callback){
     database.runWithDb(function(err, db){
-        var tables = db.collection('UserData');
+        var users = db.collection('UserData');
         users.find(criteria, function(err, cursor){
             if(!err){
                 cursor.toArray(function(err, docs){
@@ -68,9 +64,8 @@ exports.searchUsers = function(criteria, callback){
                     }
                 })
             }
-          });
-      });
-      callback(null);
+        });
+    });
 }
 
 exports.updateUserData = function(filter, newDataObj, callback){
@@ -79,7 +74,22 @@ exports.updateUserData = function(filter, newDataObj, callback){
         var users = db.collection('UserData');
         users.update(filter, { $set: newDataObj }, callback);
     });
-    callback(null);
+}
+
+exports.pushUserData = function(filter, newDataObj, callback){
+    database.runWithDb(function(err, db){
+        if(err) throw err;
+        var users = db.collection('UserData');
+        users.update(filter, { $push: newDataObj }, callback);
+    });
+}
+
+exports.pullUserData = function(filter, dataObj, callback){
+    database.runWithDb(function(err, db){
+        if(err) throw err;
+        var users = db.collection('UserData');
+        users.update(filter, { $pull: dataObj }, callback);
+    });
 }
 
 exports.checkUserName = function(usr, callback){
@@ -89,7 +99,6 @@ exports.checkUserName = function(usr, callback){
             callback(res);
         });
     });
-    callback(null);
 }
 
 exports.checkEmail = function(email, callback){
@@ -112,7 +121,6 @@ exports.checkEmail = function(email, callback){
             }
         });
     });
-    callback(null);
 }
 
 exports.blockEmail = function(email){

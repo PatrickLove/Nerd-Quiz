@@ -7,7 +7,9 @@ var express = require('express'),
     emailMan = require('./serverUtils/email-manager.js'),
     security = require('./serverUtils/security.js'),
     users = require('./serverUtils/users.js'),
-    messages = JSON.parse(fs.readFileSync('./json/messages/messages.json'));
+    tables = require('./serverUtils/nerd-tables.js'),
+    messages = JSON.parse(fs.readFileSync('./json/messages/messages.json')),
+    ObjectID = require('mongodb').ObjectID;
 
 function logError(err){
     console.log(err);
@@ -49,7 +51,7 @@ app.post('/login', function(req, res){
     if(pwd && usr){
         users.validateUser(usr, pwd, function(dbres){
             if(dbres){
-                users.getUserData(usr, function(data){
+                users.getUserData({username: usr}, function(data){
                     req.session.userData = data;
                     req.session.loginState = 1;
                     res.redirect('/home');
@@ -247,6 +249,69 @@ app.post('/account/resetPassword', function(req, res){
     }
     else{
         res.render('message', messages.PASSWORD_CHANGE_FAILED);
+    }
+});
+
+
+
+app.get('/data/nerdTables', function(req, res){
+    if(req.session.userData){
+        users.getUserTables({username: req.session.userData.username}, function(tableIDs){
+            if(tableIDs){
+                tables.getTableFromIdArray(tableIDs, function(tables){
+                    res.send({tableData: tables} || 'error');
+                });
+            }
+            else{
+                res.send({tableData: []});
+            }
+        });
+    }
+    else{
+        res.send("error");
+    }
+});
+
+app.post('/tables/join', function(req, res){
+    if(req.session.userData._id  && req.body.tableID){
+        try{
+            var tableID = ObjectID.createFromHexString(req.body.tableID),
+                userID  = ObjectID.createFromHexString(req.session.userData._id);
+            tables.addUsersToTable({_id: userID}, {_id: tableID}, function(result, existed){
+                if(result == 0 && existed > 0){
+                    res.send('error -1');
+                }
+                else{
+                    res.send('error ' + result);
+                }
+            });
+        }
+        catch(e){
+            res.send('error 1')
+        }
+    }
+    else{
+        res.send('error 3');
+    }
+});
+
+app.post('/tables/drop', function(req, res){
+    if(req.session.userData._id  && req.body.tableID){
+        try{
+            var tableID = ObjectID.createFromHexString(req.body.tableID),
+                userID  = ObjectID.createFromHexString(req.session.userData._id);
+            tables.removeUsersFromTable({_id: userID}, {_id: tableID}, function(result){
+                if(result == 0){
+                    res.send('success');
+                }
+            });
+        }
+        catch(e){
+            res.send('error 1')
+        }
+    }
+    else{
+        res.send('error 3');
     }
 });
 

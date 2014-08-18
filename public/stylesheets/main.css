@@ -110,3 +110,24 @@ h1.heading {
     height: 50px;
     margin-top: 30px;
 }
+
+.nerd-table-list {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.nerd-table-list th {
+    border-bottom: 4px solid blue;
+    text-align: left;
+}
+
+.nerd-table-list td {
+    border-bottom: 1px solid blue;
+    padding: 2%;
+}
+
+.nerd-table-list .delete-col {
+    width: 0%;
+    padding: 0;
+}
