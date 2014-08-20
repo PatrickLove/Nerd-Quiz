@@ -1,18 +1,19 @@
 <script>
-    $('document').ready(function(){
-        registerJoinForm('#join-form', '#nerd-table-list', '#join-err-text');
+    function refreshPage(){
         loadNerdTables('#nerd-table-list');
         doSearch('#search-input', '#search-field', '#search-table', '#nerd-table-list');
-    });
+    }
+
+    $('document').ready(refreshPage);
 </script>
 <h3 style="display: inline-block;">Manage your nerd tables</h3>
-<button onclick="loadNerdTables('#nerd-table-list');" style="float: right;">Refresh</button>
+<button onclick="refreshPage()" style="float: right;">Refresh</button>
 <div id="nerd-table-list">
     Loading Nerd Tables...
 </div>
 <h3>Join a nerd table</h3>
 <h4>By table ID</h4>
-<form id="join-form">
+<form id="join-form" onsubmit="event.preventDefault(); joinTable(this.tableID.value, '#nerd-table-list', '#join-err-text')">
     <label for="table-id" class="form-label">Table ID:</label>
     <input id="table-id" type="text" name="tableID"
            title="A valid table id is 24 characters long and contains only digits and the letters a-f"

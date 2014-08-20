@@ -49,15 +49,6 @@ function renderFromServer(template, serverPath, extraData, callback, searchObj){
     }
 }
 
-function registerJoinForm(qualifier, list, error){
-    $(qualifier).submit(function(event){
-        event.preventDefault();
-        var form = $(qualifier)[0].elements,
-            tableID = form.tableID.value;
-        joinTable(tableID, list, error);
-    });
-}
-
 function joinTable(id, list, error){
     $.post('/tables/join', {tableID: id}, function(res){
         if(list && res === 'error 0'){
@@ -84,7 +75,26 @@ function joinTable(id, list, error){
     });
 }
 
-
+function createTable(form, error){
+    $.post('/tables/create', {
+        name: form.name.value,
+        location: form.location.value
+        }, function(response){
+            if(error && (/^success/).test(response)){
+                $(error).html('');
+                if(form.autoAdd.checked){
+                    console.log(response.substring(8));
+                    joinTable(response.substring(8));
+                }
+            }
+            else if(error && response === 'error missing'){
+                $(error).html('Missing Information');
+            }
+            else if(error && response === 'error exists'){
+                $(error).html('A table with that name already exists');
+            }
+        });
+}
 
 function dropTable(id, list){
     console.log(id);

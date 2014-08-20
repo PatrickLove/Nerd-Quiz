@@ -11,6 +11,7 @@ exports.searchNerdTables = function(criteria, callback){
             var tables = db.collection('Tables');
             tables.find(criteria, function(err, cursor){
                 if(!err){
+                    cursor.sort({name: 1});
                     cursor.toArray(function(err, docs){
                         if(!err){
                             callback(docs);
@@ -58,13 +59,37 @@ exports.getTableUsers = function(criteria, callback){
     });
 }
 
-exports.createNerdTable = function(dataObj){
+exports.createNerdTable = function(dataObj, callback){
     database.runWithDb(function(db){
-		if(db){
+		if(!db){
+		    callback(null);
+        } else {
             var tables = db.collection('Tables');
-            tables.insert(dataObj, logError);
+            tables.insert(dataObj, function(err, doc){
+                if(doc){
+                    console.log(doc[0]);
+                    callback(doc[0]._id);
+                }
+                else{
+                    callback(null);
+                }
+            });
         }
     });
+}
+
+exports.checkTableName = function(name, callback){
+    database.runWithDb(function(db){
+        if(!db){
+            callback(null);
+        }
+        else{
+            var tables = db.collection('Tables');
+            tables.findOne({name: name}, function(err, result){
+                callback(result);
+            })
+        }
+    })
 }
 
 exports.updateNerdTable = function(filter, newDataObj, callback){

@@ -1,0 +1,31 @@
+<h3>Create a Nerd table</h3>
+<form id="table-form" onsubmit="event.preventDefault(); createTable(this, '#create-err-text');">
+    <table>
+        <tr>
+            <td>
+                <label for="table-name" class="form-label">Name:</label>
+            </td>
+            <td>
+                <input type="text" id="table-name" name="name" required/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="table-location" class="form-label">Location:</label>
+            </td>
+            <td>
+                <input type="text" id="table-location" name="location" required/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="checkbox" id="auto-add" name="autoAdd" checked>
+                <label for="auto-add" class="form-label">
+                    Automatically add me to this table
+                </label>
+            </td>
+        </tr>
+    </table>
+    <button>Create</button>
+    <div class="error-text" id="create-err-text"></div>
+</form>
