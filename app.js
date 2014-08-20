@@ -35,7 +35,9 @@ app.get('/', function(req, res){
 
 app.get('/home', function(req, res){
     if(req.session.loginState == 1){
-        res.render('home', req.session.userData);
+        var context = req.session.userData;
+        context.extras = {activeTab: req.query.tab};
+        res.render('home', context);
     } else {
         res.redirect('/');
     }
