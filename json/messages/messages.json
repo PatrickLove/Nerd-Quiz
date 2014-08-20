@@ -83,5 +83,15 @@
         "title": "Password Reset",
         "heading": "Password Reset",
         "message": "Your password was reset successfully"
+    },
+    "TABLE_NOT_FOUND" : {
+        "title" : "Table Not Found",
+        "heading" : "Table was not found",
+        "message" : "The table you requested could not be found"
+    },
+    "MUST_LOG_IN" : {
+        "title" : "Log In Required",
+        "heading" : "Log-In Required",
+        "message" : "You must <a href='/'>log in</a> to view this content<br>Not a Nerd Table user? <a href='/account/setup'>Create an account</a>"
     }
 }

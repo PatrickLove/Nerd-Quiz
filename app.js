@@ -294,6 +294,23 @@ app.post('/data/nerdTables/search', function(req, res){
     }
 });
 
+app.get('/tables/id/:tableID', function(req, res){
+    try{
+        var tableID = ObjectID.createFromHexString(req.params.tableID);
+        tables.getNerdTable({_id: tableID}, function(table){
+            if(table){
+                res.render('nerd-table-view', table);
+            }
+            else{
+                res.render('message', messages.TABLE_NOT_FOUND);
+            }
+        });
+    }
+    catch(e){
+        res.render('message', messages.MUST_LOG_IN);
+    }
+});
+
 app.post('/tables/join', function(req, res){
     if(req.session.userData && req.session.userData._id  && req.body.tableID){
         try{
@@ -314,6 +331,32 @@ app.post('/tables/join', function(req, res){
     }
     else{
         res.send('error 3');
+    }
+});
+
+app.post('/tables/create', function(req, res){
+    if(req.session.userData && req.session.userData._id  && req.body.name && req.body.location){
+        tables.checkTableName(req.body.name, function(result){
+            if(!result){
+                tables.createNerdTable({
+                    name: req.body.name,
+                    location: req.body.location
+                }, function(id){
+                    if(id){
+                        res.send('success ' + id);
+                    }
+                    else{
+                        res.send('error failed');
+                    }
+                });
+            }
+            else{
+                res.send('error exists');
+            }
+        })
+    }
+    else{
+        res.send('error missing');
     }
 });
 
