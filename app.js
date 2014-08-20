@@ -268,8 +268,32 @@ app.get('/data/nerdTables', function(req, res){
     }
 });
 
+
+function escapeRegExp(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
+app.post('/data/nerdTables/search', function(req, res){
+    if(req.body.searchField && typeof req.body.searchTerm === 'string'){ //search term can be empty - it will match everything
+        var reg_exp = new RegExp('^' + escapeRegExp(req.body.searchTerm), 'i'),
+            query = {};
+        query[req.body.searchField] = reg_exp;
+        tables.searchNerdTables(query, function(tables){
+            if(tables){
+                res.send({tableData: tables});
+            }
+            else{
+                res.send({tableData: []});
+            }
+        });
+    }
+    else{
+        res.send("error");
+    }
+});
+
 app.post('/tables/join', function(req, res){
-    if(req.session.userData._id  && req.body.tableID){
+    if(req.session.userData && req.session.userData._id  && req.body.tableID){
         try{
             var tableID = ObjectID.createFromHexString(req.body.tableID),
                 userID  = ObjectID.createFromHexString(req.session.userData._id);

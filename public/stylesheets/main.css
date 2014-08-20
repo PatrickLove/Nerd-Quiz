@@ -131,3 +131,7 @@ h1.heading {
     width: 0%;
     padding: 0;
 }
+
+.nerd-table-list .delete-col button {
+    float: right;
+}

@@ -28,6 +28,27 @@
     width: 100%;
 }
 
+.search-input {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#search-form {
+    margin-bottom: 30px;
+}
+
+#search-form > table {
+    width: 100%;
+}
+
+#search-button-cell {
+    width: 30%;
+}
+
+#search-button-cell button{
+    float: right;
+}
+
 #page-content-cell{
     border-radius: 15px;
     background-color: white;

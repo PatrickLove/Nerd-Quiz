@@ -2,6 +2,7 @@
     $('document').ready(function(){
         registerJoinForm('#join-form', '#nerd-table-list', '#join-err-text');
         loadNerdTables('#nerd-table-list');
+        doSearch('#search-input', '#search-field', '#search-table', '#nerd-table-list');
     });
 </script>
 <h3>Manage your nerd tables</h3>
@@ -9,11 +10,43 @@
     Loading Nerd Tables...
 </div>
 <h3>Join a nerd table</h3>
+<h4>By table ID</h4>
 <form id="join-form">
     <label for="table-id" class="form-label">Table ID:</label>
     <input id="table-id" type="text" name="tableID"
            title="A valid table id is 24 characters long and contains only digits and the letters a-f"
            pattern="[0-9|a-f]{24}" required style="width: 400px;">
-    <button>Join Table</button>
+    <button style="float: right;">Join Table</button>
     <div class="error-text" id="join-err-text"></div>
 </form>
+<h4>Search for a table</h4>
+<form id="search-form" onsubmit="event.preventDefault()">
+    <table>
+        <tr>
+            <td>
+                <label for="search-input" class="form-label">Search Term:</label>
+            </td>
+            <td>
+                <input type="text" id="search-input" class="search-input"
+                       onchange="doSearch('#search-input', '#search-field', '#search-table', '#nerd-table-list')"/>
+            </td>
+            <td id="search-button-cell" rowspan="2">
+                <button onclick="doSearch('#search-input', '#search-field', '#search-table', '#nerd-table-list')">Search Tables</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="search-field" class="form-label">Search Field:</label>
+            </td>
+            <td>
+                <select id="search-field" class="search-input">
+                    <option value="name">Name</option>
+                    <option value="location">Location</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</form>
+<div id="search-table">
+    No nerd tables found
+</div>

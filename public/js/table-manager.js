@@ -1,34 +1,65 @@
 function loadNerdTables(qualifier){
-    $(qualifier).html('Loading Nerd Tables');
-    renderFromServer('/templates/nerd-table-list.ejs', '/data/nerdTables', function(html){
+    renderFromServer('/templates/nerd-table-list.ejs', '/data/nerdTables',
+   {isSearch: false, listQualifier: qualifier}, function(html){
         $(qualifier).html(html);
     });
 }
 
-function renderFromServer(template, serverPath, callback){
-    $.get( serverPath, function( data ) {
-        var html;
-        if(data === 'error'){
-            html = 'Error loading nerd tables';
-        }
-        else{
-            html = new EJS({url:template}).render(data);
-        }
-        callback(html);
-    });
+function searchNerdTables(qualifier, searchObj, refreshList){
+    renderFromServer('/templates/nerd-table-list.ejs', '/data/nerdTables/search',
+    {isSearch: true, listQualifier: refreshList}, function(html){
+        $(qualifier).html(html);
+    }, searchObj)
+}
+
+function doSearch(searchInput, searchField, searchTable, listQualifier){
+    var searchObj = {
+        searchTerm: $(searchInput).val(),
+        searchField: $(searchField).val()
+    }
+    searchNerdTables(searchTable, searchObj, listQualifier);
+}
+
+function renderFromServer(template, serverPath, extraData, callback, searchObj){
+    if(!searchObj){
+        $.get( serverPath, function( data ) {
+            var html;
+            if(data === 'error'){
+                html = 'Error loading nerd tables';
+            }
+            else{
+                data.extras = extraData;
+                html = new EJS({url:template}).render(data);
+            }
+            callback(html);
+        });
+    }
+    else{
+        $.post( serverPath, searchObj, function( data ) {
+                var html;
+                if(data === 'error'){
+                    html = 'Error loading nerd tables';
+                }
+                else{
+                    data.extras = extraData;
+                    html = new EJS({url:template}).render(data);
+                }
+                callback(html);
+            });
+    }
 }
 
 function registerJoinForm(qualifier, list, error){
     $(qualifier).submit(function(event){
         event.preventDefault();
-        joinTable(qualifier, list, error);
+        var form = $(qualifier)[0].elements,
+            tableID = form.tableID.value;
+        joinTable(tableID, list, error);
     });
 }
 
-function joinTable(qualifier, list, error){
-    var form = $(qualifier)[0].elements,
-        tableID = form.tableID.value;
-    $.post('/tables/join', {tableID: tableID}, function(res){
+function joinTable(id, list, error){
+    $.post('/tables/join', {tableID: id}, function(res){
         if(list && res === 'error 0'){
             loadNerdTables(list);
             if(error){
@@ -52,6 +83,8 @@ function joinTable(qualifier, list, error){
         }
     });
 }
+
+
 
 function dropTable(id, list){
     console.log(id);

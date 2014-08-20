@@ -10,7 +10,11 @@
     <% if(tableData.length === 0){ %>
         <tr>
             <td colspan="3">
-                You are not a member of any nerd tables
+                <% if(extras.isSearch){ %>
+                    No nerd tables found, please review your search term
+                <% } else { %>
+                    You are not a member of any nerd tables
+                <% } %>
             </td>
         </tr>
     <% } else { %>
@@ -23,7 +27,11 @@
                     <%=table.location%>
                 </td>
                 <td class="delete-col">
-                    <button onclick="dropTable('<%=table._id%>', '#nerd-table-list')">Delete</button>
+                    <% if(extras.isSearch){ %>
+                        <button onclick="joinTable('<%=table._id%>', '<%=extras.listQualifier%>')">Join</button>
+                    <% } else { %>
+                        <button onclick="dropTable('<%=table._id%>', '<%=extras.listQualifier%>')">Delete</button>
+                    <% } %>
                 </td>
             </tr>
         <% }) %>
