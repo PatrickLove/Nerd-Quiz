@@ -1,7 +1,11 @@
 var database = require('./database-tools.js'),
     userUtils = require('./users.js');
 
-
+exports.isMember = function(userID, table){
+    console.log(userID);
+    console.log(table);
+    return database.isIdInArray(userID, table.members);
+}
 
 exports.searchNerdTables = function(criteria, callback){
     database.runWithDb(function(db){
@@ -15,6 +19,9 @@ exports.searchNerdTables = function(criteria, callback){
                     cursor.toArray(function(err, docs){
                         if(!err){
                             callback(docs);
+                        }
+                        else{
+                            callback(null);
                         }
                     })
                 }

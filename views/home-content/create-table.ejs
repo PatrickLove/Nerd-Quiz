@@ -1,5 +1,5 @@
 <h3>Create a Nerd table</h3>
-<form id="table-form" onsubmit="event.preventDefault(); createTable(this, '#create-err-text');">
+<form id="table-form" onsubmit="event.preventDefault(); createTable(this, '#create-err-text', '#create-success-text');">
     <table>
         <tr>
             <td>
@@ -27,5 +27,6 @@
         </tr>
     </table>
     <button>Create</button>
-    <div class="error-text" id="create-err-text"></div>
+    <span class="error-text" id="create-err-text"></span>
+    <span id="create-success-text"></span>
 </form>

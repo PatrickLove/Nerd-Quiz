@@ -2,15 +2,70 @@
 <html>
 <head lang="en">
     <link rel="stylesheet" href="/stylesheets/main.css"/>
+    <link rel="stylesheet" href="/stylesheets/nerd-table-view.css"/>
+    <link rel="stylesheet" href="/stylesheets/jquery-ui.css"/>
+    <script src="/libs/jquery.js"></script>
+    <script src="/libs/jquery-ui.js"></script>
+    <script src="/libs/ejs-production.js"></script>
+    <script src="/js/table-manager.js"></script>
     <meta charset="UTF-8">
     <title><%=name%></title>
+    <script>
+        $(document).ready(refreshContent);
+
+        function refreshContent() {
+            loadMembers('<%=_id%>', '#user-list-div');
+            setUserStatus(<%=isMember%>);
+        }
+
+        function setUserStatus(status){
+            isMember = status;
+            $("#button").off('click');
+            var button = $('#button');
+            if(isMember){
+                button.click(memberOnClick);
+                button.html('Leave this table');
+                $('#title').html('<%=name%> (you are a member)');
+            }
+            else{
+                button.click(guestOnClick);
+                button.html('Join this table');
+                $('#title').html('<%=name%>');
+            }
+        }
+        function memberOnClick(){
+            dropTable('<%=_id%>', '#user-list-div', true, function(){
+                setUserStatus(false);
+            });
+        }
+        function guestOnClick(){
+            joinTable('<%=_id%>', '#user-list-div', null, true, function(){
+                setUserStatus(true);
+            });
+        }
+    </script>
 </head>
 <body>
 <div id="content-div">
-    <h1 class="heading"><%=name%></h1>
-    <h3>Location</h3>
-    <%=location%><br>
-    <button onclick="window.location = '/home?tab=2'">Back</button>
+    <table class="heading">
+        <tr>
+            <td style="width: 100%">
+                <h1 id="title"></h1>
+            </td>
+            <td>
+                <button onclick="window.location = '/home?tab=2'">Back</button>
+            </td>
+        </tr>
+    </table>
+    <div class="table-info-container">
+        <span>Location: <%=location%></span>
+    </div>
+    <div class="table-info-container">
+        <h3>Table Members</h3>
+        <div id="user-list-div"></div>
+        <button id="button"></button>
+        <span class="error-text" id="table-view-err-text"></span>
+    </div>
 </div>
 </body>
 </html>

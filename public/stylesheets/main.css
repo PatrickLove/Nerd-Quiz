@@ -1,6 +1,7 @@
 body {
     background-color: #FF7777;
-    font-family: Times;
+    font-family: Arial, sans-serif;
+    font-size: 1.1em;
 }
 
 #content-div {
@@ -111,27 +112,27 @@ h1.heading {
     margin-top: 30px;
 }
 
-.nerd-table-list {
+.nerd-table-list, .user-list {
     border-collapse: collapse;
     width: 100%;
     margin-bottom: 30px;
 }
 
-.nerd-table-list th {
+.nerd-table-list th, .user-list th{
     border-bottom: 4px solid blue;
     text-align: left;
 }
 
-.nerd-table-list td {
+.nerd-table-list td, .user-list td {
     border-bottom: 1px solid blue;
     padding: 2%;
 }
 
-.nerd-table-list .delete-col {
+.nerd-table-list .delete-col, .user-list .delete-col {
     width: 0%;
     padding: 0;
 }
 
-.nerd-table-list .delete-col button {
+.nerd-table-list .delete-col button, .user-list .delete-col button{
     float: right;
 }

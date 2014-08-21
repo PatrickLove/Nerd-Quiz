@@ -30,7 +30,7 @@
                     <% if(extras.isSearch){ %>
                         <button onclick="joinTable('<%=table._id%>', '<%=extras.listQualifier%>')">Join</button>
                     <% } else { %>
-                        <button onclick="dropTable('<%=table._id%>', '<%=extras.listQualifier%>')">Delete</button>
+                        <button onclick="dropTable('<%=table._id%>', '<%=extras.listQualifier%>', false)">Delete</button>
                     <% } %>
                 </td>
             </tr>

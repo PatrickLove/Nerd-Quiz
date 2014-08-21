@@ -75,11 +75,18 @@ exports.searchUsers = function(criteria, callback){
             var users = db.collection('UserData');
             users.find(criteria, function(err, cursor){
                 if(!err){
+                    cursor.sort({username: 1});
                     cursor.toArray(function(err, docs){
                         if(!err){
                             callback(docs);
                         }
+                        else{
+                            callback(null);
+                        }
                     })
+                }
+                else{
+                    callback(null);
                 }
             });
         }
