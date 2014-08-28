@@ -9,7 +9,13 @@
     <script src="/libs/jquery-ui.js"></script>
     <script src="/libs/ejs-production.js"></script>
     <script src="/js/table-manager.js"></script>
-    <meta charset="UTF-8">
+    <script>
+        $(document).ready(refreshContent);
+
+        function refreshContent() {
+            loadTables('<%=_id%>', '#table-list-div');
+        }
+    </script>
     <title><%=username%></title>
 </head>
 <body>
@@ -52,6 +58,9 @@
             </tr>
             <% }); %>
         </table>
+    </div>
+    <div class="user-info-container">
+        <div id="table-list-div"></div>
     </div>
 </div>
 </body>

@@ -1,6 +1,6 @@
 function loadNerdTables(qualifier){
     renderFromServer('/templates/nerd-table-list.ejs', '/data/nerdTables',
-   {isSearch: false, listQualifier: qualifier}, function(html){
+   {isSearch: false, isActiveUser: true, listQualifier: qualifier}, function(html){
         $(qualifier).html(html);
     });
 }
@@ -12,9 +12,16 @@ function loadMembers(tableID, qualifier){
     }, {id: tableID});
 }
 
+function loadTables(userID, qualifier){
+    renderFromServer('/templates/nerd-table-list.ejs', '/data/users/tables',
+   {isSearch: false, isActiveUser: false, listQualifier: qualifier}, function(html){
+        $(qualifier).html(html);
+    }, {id: userID});
+}
+
 function searchNerdTables(qualifier, searchObj, refreshList){
     renderFromServer('/templates/nerd-table-list.ejs', '/data/nerdTables/search',
-    {isSearch: true, listQualifier: refreshList}, function(html){
+    {isSearch: true, isActiveUser: true, listQualifier: refreshList}, function(html){
         $(qualifier).html(html);
     }, searchObj)
 }

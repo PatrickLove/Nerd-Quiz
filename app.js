@@ -324,6 +324,36 @@ app.post('/data/nerdTables/members', function(req, res){
     }
 });
 
+app.post('/data/users/tables', function(req, res){
+    if(req.body.id){
+        try{
+            var idObj = ObjectID.createFromHexString(req.body.id);
+            users.getUserData({_id: idObj}, function(user){
+                if(user){
+                    tables.getTableFromIdArray(user.nerdTables, function(tables){
+                        if(tables && tables.length > 0){
+                            console.log('success');
+                            res.send({userData: user, tableData: tables});
+                        } else {
+                            console.log('nullarray');
+                            res.send({userData: user, tableData: []});
+                        }
+                    });
+                }
+                else{
+                    res.send('error');
+                }
+            });
+        }
+        catch(e){
+            res.send('error')
+        }
+    }
+    else{
+        res.send("error");
+    }
+});
+
 app.get('/tables/id/:tableID', function(req, res){
     try{
         var userID  = ObjectID.createFromHexString(req.session.userData._id);

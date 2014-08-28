@@ -12,8 +12,10 @@
             <td colspan="3">
                 <% if(extras.isSearch){ %>
                     No nerd tables found, please review your search term
-                <% } else { %>
+                <% } else if(extras.isActiveUser) { %>
                     You are not a member of any nerd tables
+                <% } else { %>
+                    This user is not a member of any nerd tables
                 <% } %>
             </td>
         </tr>
@@ -29,7 +31,7 @@
                 <td class="delete-col">
                     <% if(extras.isSearch){ %>
                         <button onclick="joinTable('<%=table._id%>', '<%=extras.listQualifier%>')">Join</button>
-                    <% } else { %>
+                    <% } else if(extras.isActiveUser) { %>
                         <button onclick="dropTable('<%=table._id%>', '<%=extras.listQualifier%>', false)">Delete</button>
                     <% } %>
                 </td>
