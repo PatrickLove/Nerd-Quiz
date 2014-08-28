@@ -89,6 +89,11 @@
         "heading" : "Table was not found",
         "message" : "The table you requested could not be found"
     },
+    "USER_NOT_FOUND" : {
+        "title" : "User Not Found",
+        "heading" : "User was not found",
+        "message" : "The user profile you requested could not be found"
+    },
     "MUST_LOG_IN" : {
         "title" : "Log In Required",
         "heading" : "Log-In Required",

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <link rel="stylesheet" href="/stylesheets/main.css"/>
+    <link rel="stylesheet" href="/stylesheets/user-view.css"/>
+    <link rel="stylesheet" href="/stylesheets/jquery-ui.css"/>
+    <link rel="stylesheet" href="/stylesheets/results.css"/>
+    <script src="/libs/jquery.js"></script>
+    <script src="/libs/jquery-ui.js"></script>
+    <script src="/libs/ejs-production.js"></script>
+    <script src="/js/table-manager.js"></script>
+    <meta charset="UTF-8">
+    <title><%=username%></title>
+</head>
+<body>
+<div id="content-div">
+    <table class="heading">
+        <tr>
+            <td style="width: 100%">
+                <h1 id="title"><%=username%></h1>
+            </td>
+            <td nowrap>
+                <button onclick="window.location = '/home'">Home</button>
+                <button onclick="window.history.back()">Back</button>
+            </td>
+        </tr>
+    </table>
+    <div class="user-info-container">
+        <span>Full name: <%=fullName%></span><br/>
+        <span>Email: <%=email%></span><br/>
+        <table id="results-table">
+            <th>
+                Quiz Results:
+            </th>
+            <tr>
+                <td class="form-label">
+                    Percent:
+                </td>
+                <td class="result-pass">
+                    <%= quizResults.percent %>%
+                </td>
+            </tr>
+            <%quizResults.resultsPerQuestion.forEach(function(didPass, index){%>
+            <%var qNum = index + 1, qName = 'Question ' + qNum + ':'; %>
+            <tr>
+                <td class="form-label">
+                    <%= qName %>
+                </td>
+                <td class="result-<%=didPass ? 'pass' : 'fail'%>">
+                    <%= didPass ? 'Correct' : 'Incorrect or Unanswered' %>
+                </td>
+            </tr>
+            <% }); %>
+        </table>
+    </div>
+</div>
+</body>
+</html>

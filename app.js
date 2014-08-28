@@ -343,6 +343,23 @@ app.get('/tables/id/:tableID', function(req, res){
     }
 });
 
+app.get('/users/id/:userID', function(req, res){
+    try{
+        var userID  = ObjectID.createFromHexString(req.params.userID);
+        users.getUserData({_id: userID}, function(user){
+            if(user){
+                res.render('user-view', user);
+            }
+            else{
+                res.render('message', messages.USER_NOT_FOUND);
+            }
+        });
+    }
+    catch(e){
+        res.render('message', messages.MUST_LOG_IN);
+    }
+});
+
 app.post('/tables/join', function(req, res){
     if(req.session.userData && req.session.userData._id  && req.body.tableID){
         try{
