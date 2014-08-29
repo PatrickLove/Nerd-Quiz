@@ -28,14 +28,24 @@
                 </tr>
                 <tr>
                     <td class="choices-cell">
-                        <% question.choices.forEach(function(choice, choiceID){ %>
-                            <%var id = 'q' + qNum + 'c' + choiceID;%>
-                            <span class="choice-button">
-                                <input type="radio" id="<%=id%>" name="usrAnswers[<%=index%>]" value="<%=choiceID%>"/>
-                                <label for="<%=id%>"><%= choice %></label>
-                            </span><br>
-                        <% }); %>
-                        <input type="hidden" name="rightAnswers[<%=index%>]" value="<%= question.answer %>"/>
+                        <input type="hidden" name="quesType[<%=index%>]" value="<%=question.type || 'radio'%>"/>
+                        <% if(question.type && question.type === "input") { %>
+                            <% for(var i = 0; i < question.choices; i++){ %>
+                                <input type="text" name="usrAnswers[<%=index%>][<%=i%>]"/><br/>
+                            <% } %>
+                            <% question.answer.forEach(function(answerSet, answerIndex){ %>
+                                <input type="hidden" name="rightAnswers[<%=index%>][<%=answerIndex%>]" value="<%=answerSet.join(':')%>">
+                            <% }); %>
+                        <% } else { %>
+                            <% question.choices.forEach(function(choice, choiceID){ %>
+                                <%var id = 'q' + qNum + 'c' + choiceID;%>
+                                <span class="choice-button">
+                                    <input type="radio" id="<%=id%>" name="usrAnswers[<%=index%>]" value="<%=choiceID%>"/>
+                                    <label for="<%=id%>"><%= choice %></label>
+                                </span><br>
+                            <% }); %>
+                            <input type="hidden" name="rightAnswers[<%=index%>]" value="<%= question.answer %>"/>
+                        <% } %>
                     </td>
                 </tr>
             </table>

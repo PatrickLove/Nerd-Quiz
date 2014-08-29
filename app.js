@@ -97,13 +97,19 @@ app.post('/nerdQuiz/grade', function(req, res){
     if(req.body.usrAnswers){
         var correct = req.body.rightAnswers,
             usr = req.body.usrAnswers,
+            type = req.body.quesType
             count = 0;
         correct.forEach(function(answer, index){
-            if(answer == usr[index]){
-                count++;
-                resultsByQ[index] = true;
-            } else {
-                resultsByQ[index] = false;
+            if(type[index] === "input"){
+
+            }
+            else{
+                if(answer == usr[index]){
+                    count++;
+                    resultsByQ[index] = true;
+                } else {
+                    resultsByQ[index] = false;
+                }
             }
         });
         percentage = count/correct.length;
