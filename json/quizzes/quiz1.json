@@ -1,27 +1,32 @@
 {
     "questions": [
         {
-            "text": "Simplify the expression: 1+1*1/1-1",
+            "text": "What does this image mean?",
             "choices": [
-                "0",
-                "1",
-                "2",
-                "3"
+                "\"Death to all\"",
+                "\"Live Long and Prosper\"",
+                "\"McDonalds French Fries\"",
+                "\"May the Force be with you\""
             ],
-            "answer": 1
+            "answer": 1,
+            "image": "v_salute.jpg"
         },
         {
-            "text": "True or false: Walruses are the best",
+            "text": "What were Spock's dying words?",
             "choices": [
-                "true",
-                "false"
+                "\"Live Long and Prosper\"",
+                "\"May the Force be with you\"",
+                "\"The needs of the many outweigh the needs of the few...or the one\""
             ],
-            "answer": 0
+            "answer": 2
         },
         {
-            "text": "Welp, tough one here",
+            "text": "What color is Plo-kuhns's lightsaber?",
             "choices": [
-                "This is the answer"
+                "Orange",
+                "Blue",
+                "Red",
+                "Purple"
             ],
             "answer": 0
         }
