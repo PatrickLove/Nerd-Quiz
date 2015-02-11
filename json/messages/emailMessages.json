@@ -14,17 +14,17 @@
     "from" : "NO_REPLY <no-reply@nerdquiz.com>",
     "links" : [
         {
-            "path" : "192.168.1.98:3000/nerdQuiz",
+            "path" : "localhost:3000/nerdQuiz",
             "replaces" : "<quiz>",
             "constructor" : "encodeEmail"
         },
         {
-            "path" : "192.168.1.98:3000/account/resetPassword",
+            "path" : "localhost:3000/account/resetPassword",
             "replaces" : "<passwordReset>",
             "constructor" : "encodeEmail"
         },
         {
-            "path" : "192.168.1.98:3000/account/setup",
+            "path" : "localhost:3000/account/setup",
             "replaces" : "<setup>"
         },
         {
